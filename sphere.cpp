@@ -53,8 +53,8 @@ Hit Sphere::intersect(const Ray &ray)
     double t = 1000;
 	/** Now we consider the angle between OC and D is theta */
 	double cos1 = oc.dot(ray.D);
-	double sin1 = sqrt(1 - cos1 * cos1);
-	double x = sqrt(r * r - OC.length() * OC.length() * sin1 * sin1);
+	//double sin1 = sqrt(1 - cos1 * cos1);
+	double x = sqrt(r * r - OC.length() * OC.length() * (1 - cos1 * cos1));
 	t = OC.length() * cos1 - x;
 
     /****************************************************
@@ -69,6 +69,7 @@ Hit Sphere::intersect(const Ray &ray)
 	At the same time OP = ray.D * t;
 	*/
     Vector N = ray.D * t - OC;
+	N = N / N.length();
 
     return Hit(t,N);
 }

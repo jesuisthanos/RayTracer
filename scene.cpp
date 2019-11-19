@@ -56,10 +56,20 @@ Color Scene::trace(const Ray &ray)
     *        Color*Color        dito
     *        pow(a,b)           a to the power of b
     ****************************************************/
-
+	Vector L;
+	Vector L_norm;
     Color color = material->color;                  // place holder
+	Color colorOut = Color(0.0, 0.0, 0.0);
+	
+	for (std::size_t i = 0; i < lights.size(); ++i) {
+		//colorOut += color * lights.at(i)->color * material->ka;
+		L = lights.at(i)->position - hit;
+		L_norm = L / L.length();
+		colorOut += color * lights.at(i)->color * material->kd;// *L_norm.dot(N);
+		//colorOut += color * lights.at(i)->color * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+	}
 
-    return color;
+    return colorOut;
 }
 
 void Scene::render(Image &img)
