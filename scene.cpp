@@ -65,8 +65,12 @@ Color Scene::trace(const Ray &ray)
 		colorOut += color * lights.at(i)->color * material->ka;
 		L = lights.at(i)->position - hit;
 		L_norm = L / L.length();
-		colorOut += color * lights.at(i)->color * material->kd *L_norm.dot(N);
-		colorOut += color * lights.at(i)->color * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+        if (L_norm.dot(N) > 0) {
+            colorOut += color * lights.at(i)->color * material->kd *L_norm.dot(N);
+        }
+        if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0) {
+		    colorOut += color * lights.at(i)->color * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+        }
 	}
 
     return colorOut;
