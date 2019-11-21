@@ -38,22 +38,24 @@ Hit Sphere::intersect(const Ray &ray)
     * intersection point from the ray origin as t and the normal ad N (see example).
     ****************************************************/
 
-    // place holder for actual intersection calculation
-
     Vector OC = position - ray.O;
-	Vector oc = OC.normalized();  // normalized OC
-	/* sine of the angle between the perpendicular vector from point of
-		view to the sphere, and OC
-	*/
+    // normalized OC
+	Vector oc = OC.normalized();
+    
+	// sine of the angle between the perpendicular vector from point of view to the sphere, and OC
 	double sin = r / OC.length();
-	double cos = sqrt(1 - sin * sin); // and it's cosine
-    if (oc.dot(ray.D) < cos) {  // the definition of dot function is ||a||.||b||.cos, so ...
+    // and it's cosine
+	double cos = sqrt(1 - sin * sin);
+
+    // the definition of dot function is ||a||.||b||.cos, so ...
+    if (oc.dot(ray.D) < cos) {
         return Hit::NO_HIT();
     }
     double t = 1000;
-	/** Now we consider the angle between OC and D is theta */
+
+	// Now we consider the angle between OC and D is theta
 	double cos1 = oc.dot(ray.D);
-	//double sin1 = sqrt(1 - cos1 * cos1);
+	// double sin1 = sqrt(1 - cos1 * cos1);
 	double x = sqrt(r * r - OC.length() * OC.length() * (1 - cos1 * cos1));
 	t = OC.length() * cos1 - x;
 

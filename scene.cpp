@@ -58,22 +58,29 @@ Color Scene::trace(const Ray &ray)
     ****************************************************/
 	Vector L;
 	Vector L_norm;
-    Color color = material->color;                  // place holder
-	Color colorOut = Color(0.0, 0.0, 0.0);
+    Color matColor = material->color;
+	Color color = Color(0.0, 0.0, 0.0);
 	
 	for (std::size_t i = 0; i < lights.size(); ++i) {
-		colorOut += color * lights.at(i)->color * material->ka;
+        Color lightColor = lights.at(i)->color;
 		L = lights.at(i)->position - hit;
 		L_norm = L / L.length();
+
+        // Ambient lighting
+		color += matColor * lightColor * material->ka;
+
+        // Diffuse lighting
         if (L_norm.dot(N) > 0) {
-            colorOut += color * lights.at(i)->color * material->kd *L_norm.dot(N);
+            color += matColor * lightColor * material->kd *L_norm.dot(N);
         }
+
+        // Specular lighting
         if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0) {
-		    colorOut += color * lights.at(i)->color * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+		    color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
         }
 	}
 
-    return colorOut;
+    return color;
 }
 
 void Scene::render(Image &img)
