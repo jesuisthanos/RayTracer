@@ -60,6 +60,9 @@ Color Scene::trace(const Ray &ray)
 	Vector L_norm;
     Color matColor = material->color;
 	Color color = Color(0.0, 0.0, 0.0);
+
+    // sortZBuffer(objects, 0, objects.size()-1);
+
 	
 	for (std::size_t i = 0; i < lights.size(); ++i) {
         Color lightColor = lights.at(i)->color;
@@ -111,4 +114,52 @@ void Scene::addLight(Light *l)
 void Scene::setEye(Triple e)
 {
     eye = e;
+}
+
+void Scene::setMode(string s) {
+    mode = s;
+}
+
+void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
+    cout << low << " " << high << std::endl;
+    if (low < high) {
+        int pi = partition(objects, low, high);
+        cout << "pi = " << pi << endl;
+
+        sortObjects(objects, low, pi - 1);
+        sortObjects(objects, pi + 1, high);
+    }
+}
+
+int Scene::partition(vector<Object*>& objects, int low, int high) {
+    int pivot = ((Sphere*)objects[high])->position.z;
+    
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; j++) {
+        if (((Sphere*) objects[j])->position.z < pivot) {
+            i++;
+            std::cout << "-----------" << std::endl;
+    for (int i = 0; i < objects.size(); i++) {
+        std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    }
+            cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
+            std::swap(objects[i], objects[j]);
+            std::cout << "-----------" << std::endl;
+    for (int i = 0; i < objects.size(); i++) {
+        std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    }
+            cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
+        }
+    }
+    std::swap(objects[i + 1], objects[high]);
+    return (i + 1);
+}
+
+void Scene::sortZBuffer() {
+    sortObjects(objects, 0, objects.size() - 1);
+    std::cout << "-----------" << std::endl;
+    for (int i = 0; i < objects.size(); i++) {
+        std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    }
 }

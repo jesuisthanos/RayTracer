@@ -21,6 +21,7 @@
 #include "triple.h"
 #include "light.h"
 #include "object.h"
+#include "sphere.h"
 #include "image.h"
 
 class Scene
@@ -29,12 +30,17 @@ private:
     std::vector<Object*> objects;
     std::vector<Light*> lights;
     Triple eye;
+    string mode;
 public:
     Color trace(const Ray &ray);
     void render(Image &img);
     void addObject(Object *o);
     void addLight(Light *l);
     void setEye(Triple e);
+    void setMode(string s);
+    void sortObjects(vector<Object*>&, int, int);
+    void sortZBuffer();
+    int partition(vector<Object*>&, int, int);
     unsigned int getNumObjects() { return objects.size(); }
     unsigned int getNumLights() { return lights.size(); }
 };

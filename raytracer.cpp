@@ -109,6 +109,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
             parser.GetNextDocument(doc);
 
             // Read scene configuration options
+            scene->setMode(doc["RenderMode"]);
+
             scene->setEye(parseTriple(doc["Eye"]));
 
             // Read and parse the scene objects
@@ -126,6 +128,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
                     cerr << "Warning: found object of unknown type, ignored." << endl;
                 }
             }
+
+            scene->sortZBuffer();
 
             // Read and parse light definitions
             const YAML::Node& sceneLights = doc["Lights"];
