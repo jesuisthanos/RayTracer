@@ -19,6 +19,9 @@
 
 Color Scene::trace(const Ray &ray)
 {
+    int origin = ((Sphere*)objects[0])->position.z - 200;
+    int maximum = ((Sphere*)objects[objects.size()-1])->position.z - origin;
+    double a3rdcolor;
     // Find hit object and distance
     Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
     Object *obj = NULL;
@@ -62,9 +65,8 @@ Color Scene::trace(const Ray &ray)
 	Color color = Color(0.0, 0.0, 0.0);
 
     // sortZBuffer(objects, 0, objects.size()-1);
-
-	
-	for (std::size_t i = 0; i < lights.size(); ++i) {
+    if (mode != "zbuffer") {
+        for (std::size_t i = 0; i < lights.size(); ++i) {
         Color lightColor = lights.at(i)->color;
 		L = lights.at(i)->position - hit;
 		L_norm = L / L.length();
@@ -81,7 +83,13 @@ Color Scene::trace(const Ray &ray)
         if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0) {
 		    color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
         }
-	}
+	    }   
+    } else {
+        a3rdcolor = (((Sphere*)obj)->position.z - origin) / maximum * 1.0;
+        color = Triple(a3rdcolor, a3rdcolor, a3rdcolor);
+    }
+	
+	
 
     return color;
 }
