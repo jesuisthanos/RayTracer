@@ -129,7 +129,6 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 }
             }
 
-            scene->sortZBuffer();
 
             // Read and parse light definitions
             const YAML::Node& sceneLights = doc["Lights"];
@@ -155,6 +154,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
 void Raytracer::renderToFile(const std::string& outputFilename)
 {
+    scene->sortZBuffer();
     Image img(400,400);
     cout << "Tracing..." << endl;
     scene->render(img);
