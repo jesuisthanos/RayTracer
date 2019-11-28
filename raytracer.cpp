@@ -109,6 +109,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
             parser.GetNextDocument(doc);
 
             // Read scene configuration options
+
+            // Render mode
             try {
                 string renderMode = doc["RenderMode"];
                 scene->setMode(renderMode);
@@ -116,12 +118,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 // Render mode not specified, default to phong
                 scene->setMode("phong");
             }
-            // if (!doc["RenderMode"]) {
-            //     cout << "Cannot find Render Mode" << endl;
-            //     scene->setMode("phong");
-            // } else {            
-            //     scene->setEye(parseTriple(doc["Eye"]));
-            // }
+
+            // Eye position
             scene->setEye(parseTriple(doc["Eye"]));
 
 

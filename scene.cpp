@@ -80,14 +80,16 @@ Color Scene::trace(const Ray &ray)
         double xColor = (N.x + 1) / 2;
         double yColor = (N.y + 1) / 2;
         double zColor = (N.z + 1) / 2;
-        
-        // Convert the values into one color
+
+        // Combine the values into one color
         color = Triple(xColor, yColor, zColor);
 
 
     } else {    // render with Phong model
         Vector L;
         Vector L_norm;
+
+        // Take each light into account
         for (std::size_t i = 0; i < lights.size(); ++i){
             Color lightColor = lights.at(i)->color;
             L = lights.at(i)->position - hit;
