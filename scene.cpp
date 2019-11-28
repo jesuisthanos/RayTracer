@@ -19,7 +19,7 @@
 
 Color Scene::trace(const Ray &ray)
 {
-    int origin = ((Sphere*)objects[0])->position.z - 150;
+    int origin = ((Sphere*)objects[0])->position.z - 100;
     int maximum = ((Sphere*)objects[objects.size()-1])->position.z - origin;
     double a3rdcolor;
     // Find hit object and distance
