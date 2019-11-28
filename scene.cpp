@@ -73,7 +73,17 @@ Color Scene::trace(const Ray &ray)
 
         // Convert the value to a grayscale color
         color = Triple(depthValue, depthValue, depthValue);
+
+
     } else if (mode == "normal") {      // generate normal buffer
+        // Convert each coordinate of the normal vector (range [-1,1]) into a color value (range [0,1])
+        double xColor = (N.x + 1) / 2;
+        double yColor = (N.y + 1) / 2;
+        double zColor = (N.z + 1) / 2;
+        
+        // Convert the values into one color
+        color = Triple(xColor, yColor, zColor);
+
 
     } else {    // render with Phong model
         Vector L;
