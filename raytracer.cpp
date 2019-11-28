@@ -113,7 +113,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 string renderMode = doc["RenderMode"];
                 scene->setMode(renderMode);
             } catch (exception e) {
-                // throw e.what();
+                // Render mode not specified, default to phong
                 scene->setMode("phong");
             }
             // if (!doc["RenderMode"]) {

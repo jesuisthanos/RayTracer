@@ -19,9 +19,6 @@
 
 Color Scene::trace(const Ray &ray)
 {
-    int origin = ((Sphere*)objects[0])->position.z - 100;
-    int maximum = ((Sphere*)objects[objects.size()-1])->position.z - origin;
-    double a3rdcolor;
     // Find hit object and distance
     Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
     Object *obj = NULL;
@@ -59,42 +56,53 @@ Color Scene::trace(const Ray &ray)
     *        Color*Color        dito
     *        pow(a,b)           a to the power of b
     ****************************************************/
-	Vector L;
-	Vector L_norm;
+	
+    Color color = Color(0.0, 0.0, 0.0);
     Color matColor = material->color;
-	Color color = Color(0.0, 0.0, 0.0);
 
-    // sortZBuffer(objects, 0, objects.size()-1);
-    
-        for (std::size_t i = 0; i < lights.size(); ++i) {
-        Color lightColor = lights.at(i)->color;
-		L = lights.at(i)->position - hit;
-		L_norm = L / L.length();
+    if (mode == "zbuffer") {    // Render zbuffer as grayscale image
+        // Determine far & near boundaries of the buffer
+        int far = ((Sphere *)objects[0])->position.z - 100;
+        int near = ((Sphere *)objects[objects.size() - 1])->position.z - far;
 
-    if (mode != "zbuffer") {
-        // Ambient lighting
-		color += matColor * lightColor * material->ka;
+        // sortZBuffer(objects, 0, objects.size()-1);
 
-        // Diffuse lighting
-        if (L_norm.dot(N) > 0) {
-            color += matColor * lightColor * material->kd *L_norm.dot(N);
+        // Get the depth value of the hit point
+        double depthValue = (hit.z - far) / near * 1.0;
+        // depthValue = (((Sphere*)obj)->position.z - far) / near * 1.0; //TODO: uncomment to get "interesting error" zbuffer image
+
+        // Convert the value to a grayscale color
+        color = Triple(depthValue, depthValue, depthValue);
+    } else if (mode == "normal") {      // generate normal buffer
+
+    } else {    // render with Phong model
+        Vector L;
+        Vector L_norm;
+        for (std::size_t i = 0; i < lights.size(); ++i){
+            Color lightColor = lights.at(i)->color;
+            L = lights.at(i)->position - hit;
+            L_norm = L / L.length();
+
+            // Ambient lighting
+            color += matColor * lightColor * material->ka;
+
+            // Diffuse lighting
+            if (L_norm.dot(N) > 0){
+                color += matColor * lightColor * material->kd * L_norm.dot(N);
+            }
+
+            if (mode != "phongNoSpecular"){
+                // Specular lighting
+                if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){
+                    color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+                }
+            }
         }
-
-        // Specular lighting
-        if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0) {
-		    color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
-        }
-
-    } else {
-        // a3rdcolor = (((Sphere*)obj)->position.z - origin) / maximum * 1.0;
-        a3rdcolor = (hit.z - origin) / maximum * 1.0;
-        color = Triple(a3rdcolor, a3rdcolor, a3rdcolor);
     }
 	
 	
 
     return color;
-}
 }
 
 void Scene::render(Image &img)
