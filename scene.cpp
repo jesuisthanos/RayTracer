@@ -122,12 +122,15 @@ void Scene::render(Image &img)
     int w = img.width();
     int h = img.height();
     for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
-            Point pixel(x+0.5, h-1-y+0.5, 0);
+        // for (int x = 0; x < w; x++) {
+        for (int z = 0; z < w; z++) {
+            // Point pixel(x+0.5, h-1-y+0.5, 0);
+            Point pixel(0, h-1-y+0.5, w-1-z+0.5);
             Ray ray(eye, (pixel-eye).normalized());
             Color col = trace(ray);
             col.clamp();
-            img(x,y) = col;
+            // img(x,y) = col;
+            img(z,y) = col;
         }
     }
 }
