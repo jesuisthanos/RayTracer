@@ -6,7 +6,14 @@
 class Triangle : public Object
 {
 public:
-	Triangle(Point v1, Point v2, Point v3) : vertex1(v1), vertex2(v2), vertex3(v3) { }
+	Vector normal;
+	Triangle(Point v1, Point v2, Point v3) : vertex1(v1), vertex2(v2), vertex3(v3) {
+		Vector norm = (vertex1 - vertex2).cross(vertex1 - vertex3);
+		normal = norm / norm.length();
+	}
+	
+	Vector getNormal();
+	void setNormal(Vector newNorm);
 
 	virtual Hit intersect(const Ray& ray);
 

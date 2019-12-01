@@ -84,16 +84,16 @@ Objects:
     kd: 0.5
     ks: 0.3
     n: 64
-- type: triangle
-  vertex1: [100,100,350]
-  vertex2: [100,250,300]
-  vertex3: [100,100,250]
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+# - type: triangle
+#   vertex1: [100,100,350]
+#   vertex2: [100,250,300]
+#   vertex3: [100,100,250]
+#   material: # green
+#     color: [0.0,1.0,0.0]
+#     ka: 0.2
+#     kd: 0.5
+#     ks: 0.3
+#     n: 64
 #	triangle 3
 - type: sphere
   position: [300,100,250]
@@ -122,13 +122,13 @@ Objects:
     kd: 0.5
     ks: 0.3
     n: 64
-- type: triangle
-  vertex1: [300,100,250]
-  vertex2: [300,250,300]
-  vertex3: [300,100,350]
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+# - type: triangle
+#   vertex1: [300,100,250]
+#   vertex2: [300,250,300]
+#   vertex3: [300,100,350]
+#   material: # green
+#     color: [0.0,1.0,0.0]
+#     ka: 0.2
+#     kd: 0.5
+#     ks: 0.3
+#     n: 64

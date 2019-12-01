@@ -122,15 +122,15 @@ void Scene::render(Image &img)
     int w = img.width();
     int h = img.height();
     for (int y = 0; y < h; y++) {
-        // for (int x = 0; x < w; x++) {
-        for (int z = 0; z < w; z++) {
-            // Point pixel(x+0.5, h-1-y+0.5, 0);
-            Point pixel(0, h-1-y+0.5, w-1-z+0.5);
+        for (int x = 0; x < w; x++) {
+        // for (int z = 0; z < w; z++) {
+            Point pixel(x+0.5, h-1-y+0.5, 0);
+            // Point pixel(0, h-1-y+0.5, w-1-z+0.5);
             Ray ray(eye, (pixel-eye).normalized());
             Color col = trace(ray);
             col.clamp();
-            // img(x,y) = col;
-            img(z,y) = col;
+            img(x,y) = col;
+            // img(z,y) = col;
         }
     }
 }
@@ -155,10 +155,9 @@ void Scene::setMode(string s) {
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
-    cout << low << " " << high << std::endl;
+    // cout << low << " " << high << std::endl;
     if (low < high) {
         int pi = partition(objects, low, high);
-        cout << "pi = " << pi << endl;
 
         sortObjects(objects, low, pi - 1);
         sortObjects(objects, pi + 1, high);
@@ -173,17 +172,17 @@ int Scene::partition(vector<Object*>& objects, int low, int high) {
     for (int j = low; j <= high - 1; j++) {
         if (((Sphere*) objects[j])->position.z < pivot) {
             i++;
-            std::cout << "-----------" << std::endl;
-    for (int i = 0; i < objects.size(); i++) {
-        std::cout << ((Sphere*)objects[i])->position.z << std::endl;
-    }
-            cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
+    //         std::cout << "-----------" << std::endl;
+    // for (int i = 0; i < objects.size(); i++) {
+    //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    // }
+            // cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
             std::swap(objects[i], objects[j]);
-            std::cout << "-----------" << std::endl;
-    for (int i = 0; i < objects.size(); i++) {
-        std::cout << ((Sphere*)objects[i])->position.z << std::endl;
-    }
-            cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
+            // std::cout << "-----------" << std::endl;
+    // for (int i = 0; i < objects.size(); i++) {
+    //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    // }
+    //         cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
         }
     }
     std::swap(objects[i + 1], objects[high]);
@@ -192,8 +191,8 @@ int Scene::partition(vector<Object*>& objects, int low, int high) {
 
 void Scene::sortZBuffer() {
     sortObjects(objects, 0, objects.size() - 1);
-    std::cout << "-----------" << std::endl;
-    for (int i = 0; i < objects.size(); i++) {
-        std::cout << ((Sphere*)objects[i])->position.z << std::endl;
-    }
+    // std::cout << "-----------" << std::endl;
+    // for (int i = 0; i < objects.size(); i++) {
+    //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    // }
 }
