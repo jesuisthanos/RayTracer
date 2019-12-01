@@ -88,7 +88,10 @@ Hit Triangle::intersect(const Ray& ray)
 		if(BA.cross(CA).dot(BE.cross(CE)) < 0.0){
 			return Hit::NO_HIT();
 		}
-
-		return Hit(k, getNormal());
+		if (ray.D.dot(getNormal()) < 0.0) {
+			return Hit(k, getNormal());
+		} else {
+			return Hit(k, getNormal() * (-1));
+		}	
 	}
 }
