@@ -2,6 +2,9 @@
 LodePNG version 20080927
 
 Copyright (c) 2005-2008 Lode Vandevenne
+Co-Authors:
+    Stephane Gosset
+    Sy-Thanh Ho
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages

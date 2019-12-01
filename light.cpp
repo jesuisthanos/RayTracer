@@ -6,6 +6,8 @@
 //  taught at the University of Groningen by Tobias Isenberg.
 //
 //  Author: Maarten Everts
+//    Stephane Gosset
+//    Sy-Thanh Ho
 //
 //  This framework is inspired by and uses code of the raytracer framework of 
 //  Bert Freudenberg that can be found at
