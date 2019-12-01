@@ -29,7 +29,7 @@ Hit Triangle::intersect(const Ray& ray)
 		return Hit(OA.length(), getNormal());
 	} else {  // it doesn't hit at A, we call it E
 		double k = OA.dot(getNormal()) / (ray.D.dot(getNormal()));
-		Triple E = ray.O - k * (Triple)ray.D;
+		Triple E = ray.O + k * (Triple)ray.D;
 		// we use barycentric coordinate system and a set of 3 equations
 		// so we could easily find this out, watch
 		/*

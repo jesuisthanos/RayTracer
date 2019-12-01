@@ -47,8 +47,8 @@ Objects:
     ks: 0.3
     n: 64
 - type: triangle
-  vertex1: [150,100,100]
   vertex2: [200,250,100]
+  vertex1: [150,100,100]
   vertex3: [250,100,100]
   material: # green
     color: [0.0,1.0,0.0]
