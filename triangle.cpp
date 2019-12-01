@@ -32,6 +32,7 @@ Hit Triangle::intersect(const Ray& ray)
 		Triple E = ray.O - k * (Triple)ray.D;
 		// we use barycentric coordinate system and a set of 3 equations
 		// so we could easily find this out, watch
+		/*
 		Vector AB = vertex2 - vertex1;
 		Vector AC = vertex3 - vertex1;
 		Vector ab = AB / AB.length();
@@ -61,5 +62,33 @@ Hit Triangle::intersect(const Ray& ray)
 		} else {
 			return Hit(k, getNormal());
 		}
+		*/
+
+		// We check on which side of each edge E is
+		//AB
+		Vector AC = vertex3 - vertex1;
+		Vector BC = vertex3 - vertex2;
+		Vector AE = E - vertex1;
+		Vector BE = E - vertex2;
+		if(AC.cross(BC).dot(AE.cross(BE)) < 0.0){
+			return Hit::NO_HIT();
+		}
+
+		//AC
+		Vector AB = vertex2 - vertex1;
+		Vector CB = vertex2 - vertex3;
+		Vector CE = E - vertex3;
+		if(AB.cross(CB).dot(AE.cross(CE)) < 0.0){
+			return Hit::NO_HIT();
+		}
+		
+		//BC
+		Vector BA = vertex1 - vertex2;
+		Vector CA = vertex1 - vertex3;
+		if(BA.cross(CA).dot(BE.cross(CE)) < 0.0){
+			return Hit::NO_HIT();
+		}
+
+		return Hit(k, getNormal());
 	}
 }
