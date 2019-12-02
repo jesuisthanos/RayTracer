@@ -141,6 +141,15 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 scene->setShadows(false);
             }
 
+            // Max recursion depth
+            try {
+                int maxRecursionDepth = doc["MaxRecursionDepth"];
+                scene->setRecursionDepth(maxRecursionDepth);
+            } catch (exception e) {
+                // Recursion depth not specified, no recursion.
+                scene->setRecursionDepth(0);
+            }
+
             // Eye position
             scene->setEye(parseTriple(doc["Eye"]));
 

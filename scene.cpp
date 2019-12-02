@@ -131,7 +131,6 @@ Color Scene::trace(const Ray &ray)
 bool Scene::traceShadow(const Ray &ray, double lightDistance){
     // Find hit object and distance
     Hit min_hit(lightDistance,ray.D);
-    Object *obj = NULL;
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
         if (hit.t<min_hit.t && hit.t>=0) {
@@ -181,6 +180,11 @@ void Scene::setMode(string s) {
 
 void Scene::setShadows(bool s) {
     shadows = s;
+}
+
+void Scene::setRecursionDepth(int d) {
+    maxRecursionDepth = d;
+    std::cout << "maxRecursionDepth = " << d << std::endl;
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {

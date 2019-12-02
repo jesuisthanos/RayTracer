@@ -32,6 +32,7 @@ private:
     Triple eye;
     string mode;
     bool shadows;
+    int maxRecursionDepth;
 public:
     Color trace(const Ray &ray);
     bool traceShadow(const Ray &ray, double lightDistance);
@@ -41,6 +42,7 @@ public:
     void setEye(Triple e);
     void setMode(string s);
     void setShadows(bool s);
+    void setRecursionDepth(int d);
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);
