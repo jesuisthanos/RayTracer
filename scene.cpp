@@ -134,7 +134,7 @@ bool Scene::traceShadow(const Ray &ray, double lightDistance){
     Object *obj = NULL;
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
-        if (hit.t<min_hit.t) {
+        if (hit.t<min_hit.t && hit.t>=0) {
             return true;
         }
     }
