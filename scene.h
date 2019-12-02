@@ -34,7 +34,7 @@ private:
     bool shadows;
     int maxRecursionDepth;
 public:
-    Color trace(const Ray &ray);
+    Color trace(const Ray &ray, int recursionDepth = 0);
     bool traceShadow(const Ray &ray, double lightDistance);
     void render(Image &img);
     void addObject(Object *o);

@@ -19,14 +19,14 @@
 #include "scene.h"
 #include "material.h"
 
-Color Scene::trace(const Ray &ray)
+Color Scene::trace(const Ray &ray, int recursionDepth)
 {
     // Find hit object and distance
     Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
     Object *obj = NULL;
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
-        if (hit.t<min_hit.t) {
+        if (hit.t<min_hit.t && hit.t>=0) {
             min_hit = hit;
             obj = objects[i];
         }
@@ -120,6 +120,12 @@ Color Scene::trace(const Ray &ray)
                     }
                 }
             }
+        }
+
+        //recursion
+        if(recursionDepth < maxRecursionDepth){
+            Ray traceRay(hit, N);
+            color += trace(traceRay, recursionDepth + 1);
         }
     }
 	
