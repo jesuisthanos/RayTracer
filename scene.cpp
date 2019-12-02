@@ -130,19 +130,16 @@ Color Scene::trace(const Ray &ray)
 
 bool Scene::traceShadow(const Ray &ray, double lightDistance){
     // Find hit object and distance
-    Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
+    Hit min_hit(lightDistance,ray.D);
     Object *obj = NULL;
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
         if (hit.t<min_hit.t) {
-            min_hit = hit;
-            obj = objects[i];
+            return true;
         }
     }
 
-    Point hit = ray.at(min_hit.t);                 //the hit point
-
-    return ((hit - ray.O).length() < lightDistance);
+    return false;
 }
 
 void Scene::render(Image &img)
