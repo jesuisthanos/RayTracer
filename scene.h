@@ -31,6 +31,7 @@ private:
     std::vector<Light*> lights;
     Triple eye;
     string mode;
+    bool shadows;
 public:
     Color trace(const Ray &ray);
     void render(Image &img);
@@ -38,6 +39,7 @@ public:
     void addLight(Light *l);
     void setEye(Triple e);
     void setMode(string s);
+    void setShadows(bool s);
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);

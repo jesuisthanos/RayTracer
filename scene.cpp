@@ -156,6 +156,12 @@ void Scene::setMode(string s) {
     mode = s;
 }
 
+void Scene::setShadows(bool s) {
+    shadows = s;
+    if(s) std::cout << "Use shadows" << std::endl;
+    else std::cout << "Don't use shadows" << std::endl;
+}
+
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
     // cout << low << " " << high << std::endl;
     if (low < high) {

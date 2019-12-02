@@ -1,6 +1,8 @@
 ---
 #  scene03 - testing triangles
 
+Shadows: false
+
 Eye: [200,200,1000]
 
 Lights:

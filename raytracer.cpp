@@ -131,6 +131,15 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 // Render mode not specified, default to phong
                 scene->setMode("phong");
             }
+            
+            // Shadows
+            try {
+                string shadows = doc["Shadows"];
+                scene->setShadows(shadows == "true");
+            } catch (exception e) {
+                // Shadows not specified, don't use them.
+                scene->setShadows(false);
+            }
 
             // Eye position
             scene->setEye(parseTriple(doc["Eye"]));
