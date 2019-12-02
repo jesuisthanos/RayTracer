@@ -34,6 +34,7 @@ private:
     bool shadows;
 public:
     Color trace(const Ray &ray);
+    bool traceShadow(const Ray &ray, double lightDistance);
     void render(Image &img);
     void addObject(Object *o);
     void addLight(Light *l);

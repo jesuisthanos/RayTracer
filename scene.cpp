@@ -100,15 +100,24 @@ Color Scene::trace(const Ray &ray)
             // Ambient lighting
             color += matColor * lightColor * material->ka;
 
-            // Diffuse lighting
-            if (L_norm.dot(N) > 0){
-                color += matColor * lightColor * material->kd * L_norm.dot(N);
+            // Detect shadows
+            bool inShadow;
+            if(shadows){
+                Ray shadowRay(hit, L_norm);
+                inShadow = traceShadow(shadowRay, L.length());
             }
 
-            if (mode != "phongNoSpecular"){
-                // Specular lighting
-                if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){
-                    color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+            if(!shadows || !inShadow){
+                // Diffuse lighting
+                if (L_norm.dot(N) > 0){
+                    color += matColor * lightColor * material->kd * L_norm.dot(N);
+                }
+
+                if (mode != "phongNoSpecular"){
+                    // Specular lighting
+                    if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){
+                        color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+                    }
                 }
             }
         }
@@ -117,6 +126,23 @@ Color Scene::trace(const Ray &ray)
 	
 
     return color;
+}
+
+bool Scene::traceShadow(const Ray &ray, double lightDistance){
+    // Find hit object and distance
+    Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
+    Object *obj = NULL;
+    for (unsigned int i = 0; i < objects.size(); ++i) {
+        Hit hit(objects[i]->intersect(ray));
+        if (hit.t<min_hit.t) {
+            min_hit = hit;
+            obj = objects[i];
+        }
+    }
+
+    Point hit = ray.at(min_hit.t);                 //the hit point
+
+    return ((hit - ray.O).length() < lightDistance);
 }
 
 void Scene::render(Image &img)
@@ -158,8 +184,6 @@ void Scene::setMode(string s) {
 
 void Scene::setShadows(bool s) {
     shadows = s;
-    if(s) std::cout << "Use shadows" << std::endl;
-    else std::cout << "Don't use shadows" << std::endl;
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
