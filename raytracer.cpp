@@ -79,7 +79,7 @@ Object* Raytracer::parseObject(const YAML::Node& node)
 		node["vertex2"] >> v2;
 		node["vertex3"] >> v3;
 		Triangle *t = new Triangle(v1, v2, v3);
-		std::cout << "triangle(" << t->vertex1.x << " " << t->vertex1.y << " " << t->vertex1.z << ", " << t->vertex2.x << " " << t->vertex2.y << " " << t->vertex2.z << ", " << t->vertex3.x << " " << t->vertex3.y << " " << t->vertex3.z << ")" << std::endl;
+		// std::cout << "triangle(" << t->vertex1.x << " " << t->vertex1.y << " " << t->vertex1.z << ", " << t->vertex2.x << " " << t->vertex2.y << " " << t->vertex2.z << ", " << t->vertex3.x << " " << t->vertex3.y << " " << t->vertex3.z << ")" << std::endl;
 		returnObject = t;
 	}
 

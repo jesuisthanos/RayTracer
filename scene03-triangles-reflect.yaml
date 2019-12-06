@@ -1,0 +1,137 @@
+---
+#  scene03 - testing triangles
+
+Shadows: true
+MaxRecursionDepth: 2
+
+Eye: [200,200,1000]
+
+Lights:
+- position: [500,400,400]
+  color: [1.0,1.0,1.0]
+
+Objects:
+#	environment
+- type: sphere
+  position: [200,-900,0]
+  radius: 1000
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.9
+    ks: 0.9
+    n: 64
+#	triangle 1
+- type: sphere
+  position: [150,100,100]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: sphere
+  position: [200,250,100]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: sphere
+  position: [250,100,100]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: triangle
+  vertex1: [150,100,100]
+  vertex2: [200,250,100]
+  vertex3: [250,100,100]
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+#	triangle 2
+- type: sphere
+  position: [100,100,350]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: sphere
+  position: [100,250,300]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: sphere
+  position: [100,100,250]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: triangle
+  vertex1: [100,100,250]
+  vertex2: [100,250,300]
+  vertex3: [100,100,350]
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+#	triangle 3
+- type: sphere
+  position: [225,100,250]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: sphere
+  position: [250,250,325]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: sphere
+  position: [325,100,350]
+  radius: 5
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+- type: triangle
+  vertex1: [225,100,250]
+  vertex2: [250,250,325]
+  vertex3: [325,100,350]
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.2
+    ks: 1.0
+    n: 64

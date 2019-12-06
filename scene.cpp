@@ -26,7 +26,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth)
     Object *obj = NULL;
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
-        if (hit.t<min_hit.t && hit.t>=0) {
+        if (hit.t<min_hit.t && hit.t>1e-10) {
             min_hit = hit;
             obj = objects[i];
         }
@@ -122,7 +122,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth)
             }
         }
 
-        //recursion
+        // Recursion
         if(recursionDepth < maxRecursionDepth){
             Ray traceRay(hit, ray.D - 2*N.dot(ray.D)*N);
             color += trace(traceRay, recursionDepth + 1) * material->ks;
@@ -139,7 +139,7 @@ bool Scene::traceShadow(const Ray &ray, double lightDistance){
     Hit min_hit(lightDistance,ray.D);
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
-        if (hit.t<min_hit.t && hit.t>=0) {
+        if (hit.t<min_hit.t && hit.t>1e-10) {
             return true;
         }
     }
