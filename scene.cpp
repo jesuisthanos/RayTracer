@@ -101,13 +101,13 @@ Color Scene::trace(const Ray &ray, int recursionDepth)
             color += matColor * lightColor * material->ka;
 
             // Detect shadows
-            bool inShadow;
+            bool inShadow = false;
             if(shadows){
                 Ray shadowRay(hit, L_norm);
                 inShadow = traceShadow(shadowRay, L.length());
             }
 
-            if(!shadows || !inShadow){
+            if(!inShadow){
                 // Diffuse lighting
                 if (L_norm.dot(N) > 0){
                     color += matColor * lightColor * material->kd * L_norm.dot(N);
@@ -124,8 +124,8 @@ Color Scene::trace(const Ray &ray, int recursionDepth)
 
         //recursion
         if(recursionDepth < maxRecursionDepth){
-            Ray traceRay(hit, N);
-            color += trace(traceRay, recursionDepth + 1);
+            Ray traceRay(hit, ray.D - 2*N.dot(ray.D)*N);
+            color += trace(traceRay, recursionDepth + 1) * material->ks;
         }
     }
 	
