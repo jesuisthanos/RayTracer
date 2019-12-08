@@ -146,7 +146,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
                     Vector B = -cos2 * N;
                     Vector T = M * sin2 + B;
                     
-                    Point C1 = hit + T * 2 * ((Sphere*)obj)->r;
+                    Point C1 = hit + T * 2 * ((Sphere*)obj)->r * cos2;
                     Vector N1 = ((Sphere*)obj)->position - C1;
                     N1 = N1 / N1.length();
                     C = cos2 * N1;
