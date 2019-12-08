@@ -19,14 +19,14 @@
 #include "scene.h"
 #include "material.h"
 
-Color Scene::trace(const Ray &ray)
+Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
 {
     // Find hit object and distance
     Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
     Object *obj = NULL;
     for (unsigned int i = 0; i < objects.size(); ++i) {
         Hit hit(objects[i]->intersect(ray));
-        if (hit.t<min_hit.t) {
+        if (hit.t<min_hit.t && hit.t>1e-10) {
             min_hit = hit;
             obj = objects[i];
         }
@@ -100,15 +100,89 @@ Color Scene::trace(const Ray &ray)
             // Ambient lighting
             color += matColor * lightColor * material->ka;
 
-            // Diffuse lighting
-            if (L_norm.dot(N) > 0){
-                color += matColor * lightColor * material->kd * L_norm.dot(N);
+            // Detect shadows
+            bool inShadow = false;
+            if(shadows){
+                Ray shadowRay(hit, L_norm);
+                inShadow = traceShadow(shadowRay, L.length());
             }
 
-            if (mode != "phongNoSpecular"){
-                // Specular lighting
-                if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){
-                    color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+            if(!inShadow){
+                // Diffuse lighting
+                if (L_norm.dot(N) > 0){
+                    color += matColor * lightColor * material->kd * L_norm.dot(N);
+                }
+
+                if (mode != "phongNoSpecular"){
+                    // Specular lighting
+                    if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){
+                        color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+                    }
+                }
+            }
+        }
+
+        // Recursion
+        if(recursionDepth < maxRecursionDepth && contribution*material->ks >= 0.1){
+            Ray reflectRay(hit, ray.D - 2*N.dot(ray.D)*N);
+            color += trace(reflectRay, recursionDepth + 1, contribution*material->ks) * material->ks;
+        }
+
+        // Refraction
+        if(recursionDepth < maxRecursionDepth && material->eta > 0 && material->refract > 0){
+            double n;
+            double cos1 = N.dot(ray.D);
+            if (cos1 < 0.0) {
+                // The ray goes into the object
+                if(contribution*material->refract >= 0.1){
+                    n = 1.0/material->eta;
+                    if (cos1 < 0.0) cos1 = -cos1;
+                    Vector C = cos1 * N;
+                    double sin1 = sqrt(1.0 - cos1 * cos1);
+                    Vector M = (ray.D + C) / sin1;
+                    double sin2 = n*n*(1.0-cos1*cos1);
+                    double cos2 = sqrt(1.0 - sin2);
+                    Vector B = -cos2 * N;
+                    Vector T = M * sin2 + B;
+                    
+                    // Point C1 = hit + T * 2 * ((Sphere*)obj)->r;
+                    // Vector N1 = ((Sphere*)obj)->position - C1;
+                    // N1 = N1 / N1.length();
+                    // C = cos2 * N1;
+                    // M = (T + C) / sin2;
+                    // B = -cos1 * N1;
+                    // Vector T1 = M * sin1 + B;
+                    Ray refractRay(hit, T);
+                    color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
+                    // if(sin2 <= 1.0){
+                    //     double cos2 = sqrt(1.0 - sin2);
+                    //     Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
+                    //     color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
+                    // }
+                }
+            }
+            else if (cos1 > 0.0) {
+                cout << "it goes out" << endl;
+                N = 0 - N;
+                // The ray goes out the object
+                if(contribution >= 0.1){
+                    n = material->eta/1.0;
+                    Vector C = cos1 * N;
+                    double sin1 = sqrt(1.0 - cos1 * cos1);
+                    Vector M = (ray.D + C) / sin1;
+                    double sin2 = n*n*(1.0-cos1*cos1);
+                    double cos2 = sqrt(1.0 - sin2);
+                    Vector B = -cos2 * N;
+                    Ray refractRay(hit, M * sin2 + B);
+                    color += trace(refractRay, recursionDepth+1, contribution*material->refract) * material->refract;
+                    
+                    // double cos1 = N.dot(ray.D);
+                    // double sin1 = n*n*(1.0-cos1*cos1);
+                    // if(sin1 <= 1.0){
+                    //     double cos2 = sqrt(1.0 - sin1);
+                    //     Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
+                    //     color = trace(refractRay, recursionDepth, contribution);
+                    // }
                 }
             }
         }
@@ -117,6 +191,19 @@ Color Scene::trace(const Ray &ray)
 	
 
     return color;
+}
+
+bool Scene::traceShadow(const Ray &ray, double lightDistance){
+    // Find hit object and distance
+    Hit min_hit(lightDistance,ray.D);
+    for (unsigned int i = 0; i < objects.size(); ++i) {
+        Hit hit(objects[i]->intersect(ray));
+        if (hit.t<min_hit.t && hit.t>1e-10) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void Scene::render(Image &img)
@@ -154,6 +241,15 @@ void Scene::setEye(Triple e)
 
 void Scene::setMode(string s) {
     mode = s;
+}
+
+void Scene::setShadows(bool s) {
+    shadows = s;
+}
+
+void Scene::setRecursionDepth(int d) {
+    maxRecursionDepth = d;
+    std::cout << "maxRecursionDepth = " << d << std::endl;
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
