@@ -131,31 +131,30 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
         // Refraction
         if(recursionDepth < maxRecursionDepth && material->eta > 0 && material->refract > 0){
             double n;
-            if (ray.D.dot(N) <= 0.0) {
+            double cos1 = N.dot(ray.D);
+            if (cos1 < 0.0) {
                 // The ray goes into the object
                 if(contribution*material->refract >= 0.1){
                     n = 1.0/material->eta;
-
-                    double cos1 = N.dot(ray.D);
-                    double sin1 = n*n*(1.0-cos1*cos1);
-                    if(sin1 <= 1.0){
-                        double cos2 = sqrt(1.0 - sin1);
-                        Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
-                        color += trace(refractRay, recursionDepth + 1, contribution*material->refract) * material->refract;
-                    }
-                }
-            } else {
-                // The ray goes out the object
-                if(contribution >= 0.1){
-                    n = material->eta/1.0;
+                    if (cos1 < 0.0) cos1 = -cos1;
+                    Vector C = cos1 * N;
+                    double sin1 = sqrt(1.0 - cos1 * cos1);
+                    Vector M = (ray.D + C) / sin1;
+                    double sin2 = n*n*(1.0-cos1*cos1);
+                    double cos2 = sqrt(1.0 - sin2);
+                    sin2 = sqrt(sin2);
+                    Vector B = -cos2 * N;
+                    Vector T = M * sin2 + B;
                     
-                    double cos1 = N.dot(ray.D);
-                    double sin1 = n*n*(1.0-cos1*cos1);
-                    if(sin1 <= 1.0){
-                        double cos2 = sqrt(1.0 - sin1);
-                        Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
-                        color = trace(refractRay, recursionDepth + 1, contribution);
-                    }
+                    Point C1 = hit + T * 2 * ((Sphere*)obj)->r * cos2;
+                    Vector N1 = ((Sphere*)obj)->position - C1;
+                    N1 = N1 / N1.length();
+                    C = cos2 * N1;
+                    M = (T + C) / sin2;
+                    B = -cos1 * N1;
+                    Vector T1 = M * sin1 + B;
+                    Ray refractRay(C1, T1);
+                    color += trace(refractRay, recursionDepth + 2, contribution*material->refract) * material->refract;
                 }
             }
         }
