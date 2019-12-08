@@ -142,6 +142,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
                     Vector M = (ray.D + C) / sin1;
                     double sin2 = n*n*(1.0-cos1*cos1);
                     double cos2 = sqrt(1.0 - sin2);
+                    sin2 = sqrt(sin2);
                     Vector B = -cos2 * N;
                     Vector T = M * sin2 + B;
                     
@@ -175,7 +176,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             //         double cos2 = sqrt(1.0 - sin2);
             //         Vector B = -cos2 * N;
             //         Ray refractRay(hit, M * sin2 + B);
-            //         color += trace(refractRay, recursionDepth+1, contribution*material->refract) * material->refract;
+            //         color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
                     
             //         // double cos1 = N.dot(ray.D);
             //         // double sin1 = n*n*(1.0-cos1*cos1);
