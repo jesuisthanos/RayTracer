@@ -131,31 +131,58 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
         // Refraction
         if(recursionDepth < maxRecursionDepth && material->eta > 0 && material->refract > 0){
             double n;
-            if (ray.D.dot(N) <= 0.0) {
+            double cos1 = N.dot(ray.D);
+            if (cos1 < 0.0) {
                 // The ray goes into the object
                 if(contribution*material->refract >= 0.1){
                     n = 1.0/material->eta;
-
-                    double cos1 = N.dot(ray.D);
-                    double sin1 = n*n*(1.0-cos1*cos1);
-                    if(sin1 <= 1.0){
-                        double cos2 = sqrt(1.0 - sin1);
-                        Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
-                        color += trace(refractRay, recursionDepth + 1, contribution*material->refract) * material->refract;
-                    }
+                    if (cos1 < 0.0) cos1 = -cos1;
+                    Vector C = cos1 * N;
+                    double sin1 = sqrt(1.0 - cos1 * cos1);
+                    Vector M = (ray.D + C) / sin1;
+                    double sin2 = n*n*(1.0-cos1*cos1);
+                    double cos2 = sqrt(1.0 - sin2);
+                    Vector B = -cos2 * N;
+                    Vector T = M * sin2 + B;
+                    
+                    // Point C1 = hit + T * 2 * ((Sphere*)obj)->r;
+                    // Vector N1 = ((Sphere*)obj)->position - C1;
+                    // N1 = N1 / N1.length();
+                    // C = cos2 * N1;
+                    // M = (T + C) / sin2;
+                    // B = -cos1 * N1;
+                    // Vector T1 = M * sin1 + B;
+                    Ray refractRay(hit, T);
+                    color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
+                    // if(sin2 <= 1.0){
+                    //     double cos2 = sqrt(1.0 - sin2);
+                    //     Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
+                    //     color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
+                    // }
                 }
-            } else {
+            }
+            else if (cos1 > 0.0) {
+                cout << "it goes out" << endl;
+                N = 0 - N;
                 // The ray goes out the object
                 if(contribution >= 0.1){
                     n = material->eta/1.0;
+                    Vector C = cos1 * N;
+                    double sin1 = sqrt(1.0 - cos1 * cos1);
+                    Vector M = (ray.D + C) / sin1;
+                    double sin2 = n*n*(1.0-cos1*cos1);
+                    double cos2 = sqrt(1.0 - sin2);
+                    Vector B = -cos2 * N;
+                    Ray refractRay(hit, M * sin2 + B);
+                    color += trace(refractRay, recursionDepth+1, contribution*material->refract) * material->refract;
                     
-                    double cos1 = N.dot(ray.D);
-                    double sin1 = n*n*(1.0-cos1*cos1);
-                    if(sin1 <= 1.0){
-                        double cos2 = sqrt(1.0 - sin1);
-                        Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
-                        color = trace(refractRay, recursionDepth + 1, contribution);
-                    }
+                    // double cos1 = N.dot(ray.D);
+                    // double sin1 = n*n*(1.0-cos1*cos1);
+                    // if(sin1 <= 1.0){
+                    //     double cos2 = sqrt(1.0 - sin1);
+                    //     Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
+                    //     color = trace(refractRay, recursionDepth, contribution);
+                    // }
                 }
             }
         }
