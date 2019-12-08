@@ -31,13 +31,18 @@ private:
     std::vector<Light*> lights;
     Triple eye;
     string mode;
+    bool shadows;
+    int maxRecursionDepth;
 public:
-    Color trace(const Ray &ray);
+    Color trace(const Ray &ray, int recursionDepth = 0, double contribution = 1);
+    bool traceShadow(const Ray &ray, double lightDistance);
     void render(Image &img);
     void addObject(Object *o);
     void addLight(Light *l);
     void setEye(Triple e);
     void setMode(string s);
+    void setShadows(bool s);
+    void setRecursionDepth(int d);
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);
