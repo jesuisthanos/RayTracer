@@ -209,17 +209,30 @@ bool Scene::traceShadow(const Ray &ray, double lightDistance){
 
 void Scene::render(Image &img)
 {
+    int n = superSampling;
     int w = img.width();
     int h = img.height();
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
         // for (int z = 0; z < w; z++) {
-            Point pixel(x+0.5, h-1-y+0.5, 0);
-            // Point pixel(0, h-1-y+0.5, w-1-z+0.5);
-            Ray ray(eye, (pixel-eye).normalized());
-            Color col = trace(ray);
+            Color col(0.0, 0.0, 0.0);
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    Point pixel(x+1.0/(2*n)+i*1.0/n, h-1-y+1.0/(2*n) + j * 1.0/n, 0);
+                    Ray ray(eye, (pixel-eye).normalized());
+                    Color colp = trace(ray);
+                    col += colp;
+                }
+            }
+            col = col / (n * n);
             col.clamp();
-            img(x,y) = col;
+            img(x, y) = col;
+            // Point pixel(x+0.5, h-1-y+0.5, 0);
+            // Point pixel(0, h-1-y+0.5, w-1-z+0.5);
+            // Ray ray(eye, (pixel-eye).normalized());
+            // Color col = trace(ray);
+            // col.clamp();
+            // img(x,y) = col;
             // img(z,y) = col;
         }
     }
