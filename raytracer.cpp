@@ -130,6 +130,15 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
             // Read scene configuration options
 
+            // SuperSampling
+            try {
+                int ss = doc["SuperSampling"];
+                scene->setSuperSampling(ss);
+            } catch (exception e) {
+                // Do nothing
+                
+            }
+
             // Render mode
             try {
                 string renderMode = doc["RenderMode"];
