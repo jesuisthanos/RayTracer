@@ -12,10 +12,16 @@
 #  The example scene description should largely speak for itself. By now
 #  it should be clear that the #-character can be used to insert comments.
 
-Eye: [200,200,1000]  
+Camera:
+    eye: [200,200,1000]
+    center: [200,200,0]
+    up: [0,1,0]
+    viewSize: [400,400]
 
 Shadows: true
-MaxRecursionDepth: 4
+MaxRecursionDepth: 2
+SuperSampling:
+  factor: 4
 
 Lights:
 - position: [-200,600,1500]
@@ -54,14 +60,12 @@ Objects:
 - type: sphere
   position: [140,220,400]
   radius: 50
-  material: # glass
+  material: # yellow
     color: [1.0,0.8,0.0]
-    ka: 0.0
-    kd: 0.0
-    ks: 0.0
+    ka: 0.2
+    kd: 0.8
+    ks: 0
     n: 1
-    refract: 1.0
-    eta: 1.5
 - type: sphere
   position: [110,130,200]
   radius: 50
