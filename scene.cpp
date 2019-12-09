@@ -162,30 +162,6 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
                     // }
                 }
             }
-            // else if (cos1 > 0.0) {
-            //     cout << "it goes out" << endl;
-            //     N = 0 - N;
-            //     // The ray goes out the object
-            //     if(contribution >= 0.1){
-            //         n = material->eta/1.0;
-            //         Vector C = cos1 * N;
-            //         double sin1 = sqrt(1.0 - cos1 * cos1);
-            //         Vector M = (ray.D + C) / sin1;
-            //         double sin2 = n*n*(1.0-cos1*cos1);
-            //         double cos2 = sqrt(1.0 - sin2);
-            //         Vector B = -cos2 * N;
-            //         Ray refractRay(hit, M * sin2 + B);
-            //         color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
-                    
-            //         // double cos1 = N.dot(ray.D);
-            //         // double sin1 = n*n*(1.0-cos1*cos1);
-            //         // if(sin1 <= 1.0){
-            //         //     double cos2 = sqrt(1.0 - sin1);
-            //         //     Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
-            //         //     color = trace(refractRay, recursionDepth, contribution);
-            //         // }
-            //     }
-            // }
         }
     }
 	
@@ -253,6 +229,15 @@ void Scene::setEye(Triple e)
     eye = e;
 }
 
+void Scene::setCamera(Camera c)
+{
+    camera = c;
+    std::cout << "eye : " << camera.eye.x << " " << camera.eye.y << " " << camera.eye.z << std::endl;
+    std::cout << "center : " << camera.center.x << " " << camera.center.y << " " << camera.center.z << std::endl;
+    std::cout << "up : " << camera.up.x << " " << camera.up.y << " " << camera.up.z << std::endl;
+    std::cout << "viewSize : " << camera.viewWidth << " " << camera.viewHeight << std::endl;
+}
+
 void Scene::setMode(string s) {
     mode = s;
 }
@@ -267,6 +252,7 @@ void Scene::setRecursionDepth(int d) {
 
 void Scene::setSuperSampling(int s){
     superSampling = s;
+    std::cout << "SuperSampling factor : " << superSampling << std::endl;
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {

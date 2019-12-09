@@ -21,6 +21,7 @@
 #include "material.h"
 #include "light.h"
 #include "image.h"
+#include "camera.h"
 #include "yaml/yaml.h"
 #include <ctype.h>
 #include <fstream>
@@ -45,6 +46,17 @@ Triple parseTriple(const YAML::Node& node)
     node[1] >> t.y;
     node[2] >> t.z;	
     return t;
+}
+
+Camera parseCamera(const YAML::Node& node)
+{
+    Camera c;
+    node["eye"] >> c.eye;
+    node["center"] >> c.center;
+    node["up"] >> c.up;
+    node["viewSize"][0] >> c.viewWidth;
+    node["viewSize"][1] >> c.viewHeight;
+    return c;
 }
 
 Material* Raytracer::parseMaterial(const YAML::Node& node)
@@ -157,19 +169,24 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 scene->setRecursionDepth(0);
             }
 
-            // Camera parameters
-
-            // Eye position
-            scene->setEye(parseTriple(doc["Eye"]));
-
             // Super-sampling
             try{
                 int superSampling = doc["SuperSampling"]["factor"];
                 scene->setSuperSampling(superSampling);
-                cout << "SuperSampling factor : " << superSampling << endl;
             } catch (exception e) {
                 scene->setSuperSampling(1);
             }
+
+            try{
+                // Camera parameters
+                scene->setCamera(parseCamera(doc["Camera"]));
+            } catch (exception e){
+                // Eye position
+                Camera camera;
+                camera.eye = parseTriple(doc["Eye"]);
+                scene->setCamera(camera);
+            }
+
 
             // Read and parse the scene objects
             const YAML::Node& sceneObjects = doc["Objects"];
