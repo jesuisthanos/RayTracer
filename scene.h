@@ -33,6 +33,7 @@ private:
     string mode;
     bool shadows;
     int maxRecursionDepth;
+    int superSampling;
 public:
     Color trace(const Ray &ray, int recursionDepth = 0, double contribution = 1);
     bool traceShadow(const Ray &ray, double lightDistance);
@@ -42,6 +43,7 @@ public:
     void setEye(Triple e);
     void setMode(string s);
     void setShadows(bool s);
+    void setSuperSampling(int ss);
     void setRecursionDepth(int d);
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
