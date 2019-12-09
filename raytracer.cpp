@@ -130,15 +130,6 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
             // Read scene configuration options
 
-            // SuperSampling
-            try {
-                int ss = doc["SuperSampling"];
-                scene->setSuperSampling(ss);
-            } catch (exception e) {
-                // Do nothing
-                
-            }
-
             // Render mode
             try {
                 string renderMode = doc["RenderMode"];
@@ -166,9 +157,19 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 scene->setRecursionDepth(0);
             }
 
+            // Camera parameters
+
             // Eye position
             scene->setEye(parseTriple(doc["Eye"]));
 
+            // Super-sampling
+            try{
+                int superSampling = doc["SuperSampling"]["factor"];
+                scene->setSuperSampling(superSampling);
+                cout << "SuperSampling factor : " << superSampling << endl;
+            } catch (exception e) {
+                scene->setSuperSampling(1);
+            }
 
             // Read and parse the scene objects
             const YAML::Node& sceneObjects = doc["Objects"];

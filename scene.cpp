@@ -250,7 +250,10 @@ void Scene::setShadows(bool s) {
 
 void Scene::setRecursionDepth(int d) {
     maxRecursionDepth = d;
-    std::cout << "maxRecursionDepth = " << d << std::endl;
+}
+
+void Scene::setSuperSampling(int s){
+    superSampling = s;
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {

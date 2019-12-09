@@ -43,8 +43,8 @@ public:
     void setEye(Triple e);
     void setMode(string s);
     void setShadows(bool s);
-    void setSuperSampling(int ss);
     void setRecursionDepth(int d);
+    void setSuperSampling(int s);
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);
