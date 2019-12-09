@@ -30,7 +30,6 @@ class Scene
 private:
     std::vector<Object*> objects;
     std::vector<Light*> lights;
-    Triple eye;
     Camera camera;
     string mode;
     bool shadows;
@@ -42,7 +41,6 @@ public:
     void render(Image &img);
     void addObject(Object *o);
     void addLight(Light *l);
-    void setEye(Triple e);
     void setCamera(Camera c);
     void setMode(string s);
     void setShadows(bool s);

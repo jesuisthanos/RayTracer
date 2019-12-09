@@ -195,7 +195,7 @@ void Scene::render(Image &img)
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     Point pixel(x+1.0/(2*n)+i*1.0/n, h-1-y+1.0/(2*n) + j * 1.0/n, 0);
-                    Ray ray(eye, (pixel-eye).normalized());
+                    Ray ray(camera.eye, (pixel-camera.eye).normalized());
                     Color colp = trace(ray);
                     col += colp;
                 }
@@ -222,11 +222,6 @@ void Scene::addObject(Object *o)
 void Scene::addLight(Light *l)
 {
     lights.push_back(l);
-}
-
-void Scene::setEye(Triple e)
-{
-    eye = e;
 }
 
 void Scene::setCamera(Camera c)
