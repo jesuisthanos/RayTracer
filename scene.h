@@ -23,26 +23,29 @@
 #include "object.h"
 #include "sphere.h"
 #include "image.h"
+#include "camera.h"
 
 class Scene
 {
 private:
     std::vector<Object*> objects;
     std::vector<Light*> lights;
-    Triple eye;
+    Camera camera;
     string mode;
     bool shadows;
     int maxRecursionDepth;
+    int superSampling;
 public:
     Color trace(const Ray &ray, int recursionDepth = 0, double contribution = 1);
     bool traceShadow(const Ray &ray, double lightDistance);
     void render(Image &img);
     void addObject(Object *o);
     void addLight(Light *l);
-    void setEye(Triple e);
+    void setCamera(Camera c);
     void setMode(string s);
     void setShadows(bool s);
     void setRecursionDepth(int d);
+    void setSuperSampling(int s);
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);

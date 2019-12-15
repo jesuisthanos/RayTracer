@@ -128,7 +128,6 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             color += trace(reflectRay, recursionDepth + 1, contribution*material->ks) * material->ks;
         }
 
-        // Refraction
         if(recursionDepth < maxRecursionDepth && material->eta > 0 && material->refract > 0){
             double n;
             double cos1 = N.dot(ray.D);
@@ -153,8 +152,14 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
                     M = (T + C) / sin2;
                     B = -cos1 * N1;
                     Vector T1 = M * sin1 + B;
+                    // Ray refractRay(hit, T);
                     Ray refractRay(C1, T1);
-                    color += trace(refractRay, recursionDepth + 2, contribution*material->refract) * material->refract;
+                    color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
+                    // if(sin2 <= 1.0){
+                    //     double cos2 = sqrt(1.0 - sin2);
+                    //     Ray refractRay(hit, n*ray.D + (n*cos1-cos2)*N);
+                    //     color += trace(refractRay, recursionDepth, contribution*material->refract) * material->refract;
+                    // }
                 }
             }
         }
@@ -180,17 +185,30 @@ bool Scene::traceShadow(const Ray &ray, double lightDistance){
 
 void Scene::render(Image &img)
 {
+    int n = superSampling;
     int w = img.width();
     int h = img.height();
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
         // for (int z = 0; z < w; z++) {
-            Point pixel(x+0.5, h-1-y+0.5, 0);
-            // Point pixel(0, h-1-y+0.5, w-1-z+0.5);
-            Ray ray(eye, (pixel-eye).normalized());
-            Color col = trace(ray);
+            Color col(0.0, 0.0, 0.0);
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    Point pixel(x+1.0/(2*n)+i*1.0/n, h-1-y+1.0/(2*n) + j * 1.0/n, 0);
+                    Ray ray(camera.eye, (pixel-camera.eye).normalized());
+                    Color colp = trace(ray);
+                    col += colp;
+                }
+            }
+            col = col / (n * n);
             col.clamp();
-            img(x,y) = col;
+            img(x, y) = col;
+            // Point pixel(x+0.5, h-1-y+0.5, 0);
+            // Point pixel(0, h-1-y+0.5, w-1-z+0.5);
+            // Ray ray(eye, (pixel-eye).normalized());
+            // Color col = trace(ray);
+            // col.clamp();
+            // img(x,y) = col;
             // img(z,y) = col;
         }
     }
@@ -206,9 +224,13 @@ void Scene::addLight(Light *l)
     lights.push_back(l);
 }
 
-void Scene::setEye(Triple e)
+void Scene::setCamera(Camera c)
 {
-    eye = e;
+    camera = c;
+    std::cout << "eye : " << camera.eye.x << " " << camera.eye.y << " " << camera.eye.z << std::endl;
+    std::cout << "center : " << camera.center.x << " " << camera.center.y << " " << camera.center.z << std::endl;
+    std::cout << "up : " << camera.up.x << " " << camera.up.y << " " << camera.up.z << std::endl;
+    std::cout << "viewSize : " << camera.viewWidth << " " << camera.viewHeight << std::endl;
 }
 
 void Scene::setMode(string s) {
@@ -221,7 +243,11 @@ void Scene::setShadows(bool s) {
 
 void Scene::setRecursionDepth(int d) {
     maxRecursionDepth = d;
-    std::cout << "maxRecursionDepth = " << d << std::endl;
+}
+
+void Scene::setSuperSampling(int s){
+    superSampling = s;
+    std::cout << "SuperSampling factor : " << superSampling << std::endl;
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
