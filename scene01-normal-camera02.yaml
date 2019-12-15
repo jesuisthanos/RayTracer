@@ -14,7 +14,11 @@
 
 RenderMode: "normal"
 
-Eye: [1000,200,200]  
+Camera:
+    eye: [1000,200,200]
+    center: [0,200,200]
+    up: [0,1,0]
+    viewSize: [400,400]
 
 Lights:
 - position: [-200,600,1500]
