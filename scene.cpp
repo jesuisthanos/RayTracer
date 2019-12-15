@@ -185,37 +185,96 @@ bool Scene::traceShadow(const Ray &ray, double lightDistance){
 
 void Scene::render(Image &img)
 {
+    Triple offset(0.0, 0.0, 0.0);
     int n = superSampling;
-    // camera setup
-    Vector look = camera.center - camera.eye;
-    Vector horizontal = look.cross(camera.up);
-    Vector orthoUp = horizontal.cross(look.normalized()); // this will define half-long the vertical size of the view
-                                            // because we do not have a viewing angle implemented
-    horizontal = horizontal.normalized() * orthoUp.length() * camera.viewWidth / camera.viewHeight;
-    double sx(0.0), sy(0.0);
-    double pxHeight(1.0 / camera.viewHeight);
-    double pxWidth(1.0 / camera.viewWidth);
+    
+    double goldenAngle = camera.apertureSamples * 137.508;  // this is still in degrees
+    double c = (double)camera.apertureRadius / (camera.up.length() * sqrt(camera.apertureSamples));
+    vector<Image> imgSamples;
+    for (int sample = 0; sample < camera.apertureSamples; sample++) {
+        //Image newSample(camera.viewWidth, camera.viewHeight);
+        double r = c * sqrt((double)sample);
+        double th = sample * goldenAngle;
+        offset = Triple(r * cos(th / 360), r * sin(th / 360), 0.0);
+        camera.eye = camera.eye + offset;
+        //// calculation for this sample
+        // camera setup
+        Vector look = camera.center - camera.eye;
+        Vector horizontal = look.cross(camera.up);
+        Vector orthoUp = horizontal.cross(look.normalized()).normalized() * camera.viewHeight / 2; // this will define half-long the vertical size of the view
+                                                // because we do not have a viewing angle implemented
+        horizontal = horizontal.normalized() * orthoUp.length() * camera.viewWidth / camera.viewHeight;
+        double sx(0.0), sy(0.0);
+        double pxHeight(1.0 / camera.viewHeight);
+        double pxWidth(1.0 / camera.viewWidth);
 
-    for (int SX = 0; SX < camera.viewWidth; SX++) {
-        sx = SX * pxWidth;
-        for (int SY = 0; SY < camera.viewHeight; SY++) {
-            sy = SY * pxHeight;
-            Color col(0.0, 0.0, 0.0);
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    Point pixel = camera.center + (2 * sx - 1.0 + pxWidth / (2 * n) + i * pxWidth / n) * horizontal 
-                        + (1.0 - 2 * sy + pxHeight / (2 * n) + j * pxHeight / n) * orthoUp;
-                    //(x + sx / (2 * n) + i * sx / n, h - 1 - y + 1.0 / (2 * n) + j * 1.0 / n, 0);
-                    Ray ray(camera.eye, (pixel - camera.eye).normalized());
-                    Color colp = trace(ray);
-                    col += colp;
+        for (int SX = 0; SX < camera.viewWidth; SX++) {
+            sx = SX * pxWidth;
+            for (int SY = 0; SY < camera.viewHeight; SY++) {
+                sy = SY * pxHeight;
+                Color col(0.0, 0.0, 0.0);
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        Point pixel = camera.center + (2 * sx - 1.0 + pxWidth / (2 * n) + i * pxWidth / n) * horizontal
+                            + (1.0 - 2 * sy + pxHeight / (2 * n) + j * pxHeight / n) * orthoUp;
+                        //(x + sx / (2 * n) + i * sx / n, h - 1 - y + 1.0 / (2 * n) + j * 1.0 / n, 0);
+                        Ray ray(camera.eye, (pixel - camera.eye).normalized());
+                        Color colp = trace(ray);
+                        col += colp;
+                    }
                 }
+                col = col / (n * n);
+                col.clamp();
+                img(SX, SY) += col;
             }
-            col = col / (n * n);
-            col.clamp();
-            img(SX, SY) = col;
+        }
+        //// done calculation for this sample
+        //imgSamples.push_back(newSample);
+    }
+
+    
+        
+    for (int SX = 0; SX < camera.viewWidth; SX++) {
+        for (int SY = 0; SY < camera.viewHeight; SY++) {
+            /*Color px(0.0, 0.0, 0.0);
+            for (int sample = 0; sample < camera.apertureSamples; sample++) {
+                px += imgSamples.at(sample)(SX, SY);
+            }*/
+            img(SX, SY) /= camera.apertureSamples;
         }
     }
+
+    
+    //// camera setup
+    //Vector look = camera.center - camera.eye;
+    //Vector horizontal = look.cross(camera.up);
+    //Vector orthoUp = horizontal.cross(look.normalized()).normalized() * camera.viewHeight / 2; // this will define half-long the vertical size of the view
+    //                                        // because we do not have a viewing angle implemented
+    //horizontal = horizontal.normalized() * orthoUp.length() * camera.viewWidth / camera.viewHeight;
+    //double sx(0.0), sy(0.0);
+    //double pxHeight(1.0 / camera.viewHeight);
+    //double pxWidth(1.0 / camera.viewWidth);
+
+    //for (int SX = 0; SX < camera.viewWidth; SX++) {
+    //    sx = SX * pxWidth;
+    //    for (int SY = 0; SY < camera.viewHeight; SY++) {
+    //        sy = SY * pxHeight;
+    //        Color col(0.0, 0.0, 0.0);
+    //        for (int i = 0; i < n; i++) {
+    //            for (int j = 0; j < n; j++) {
+    //                Point pixel = camera.center + (2 * sx - 1.0 + pxWidth / (2 * n) + i * pxWidth / n) * horizontal 
+    //                    + (1.0 - 2 * sy + pxHeight / (2 * n) + j * pxHeight / n) * orthoUp;
+    //                //(x + sx / (2 * n) + i * sx / n, h - 1 - y + 1.0 / (2 * n) + j * 1.0 / n, 0);
+    //                Ray ray(camera.eye, (pixel - camera.eye).normalized());
+    //                Color colp = trace(ray);
+    //                col += colp;
+    //            }
+    //        }
+    //        col = col / (n * n);
+    //        col.clamp();
+    //        img(SX, SY) = col;
+    //    }
+    //}
 
     
     //int w = img.width();
@@ -263,6 +322,8 @@ void Scene::setCamera(Camera c)
     std::cout << "center : " << camera.center.x << " " << camera.center.y << " " << camera.center.z << std::endl;
     std::cout << "up : " << camera.up.x << " " << camera.up.y << " " << camera.up.z << std::endl;
     std::cout << "viewSize : " << camera.viewWidth << " " << camera.viewHeight << std::endl;
+    std::cout << "apertureRadius : " << camera.apertureRadius << std::endl;
+    std::cout << "apertureSamples : " << camera.apertureSamples << std::endl;
 }
 
 void Scene::setMode(string s) {

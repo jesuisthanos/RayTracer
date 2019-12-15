@@ -56,6 +56,14 @@ Camera parseCamera(const YAML::Node& node)
     node["up"] >> c.up;
     node["viewSize"][0] >> c.viewWidth;
     node["viewSize"][1] >> c.viewHeight;
+    try {
+        node["apertureRadius"] >> c.apertureRadius;
+        node["apertureSamples"] >> c.apertureSamples;
+    }
+    catch (exception e) {
+        c.apertureRadius = 0;
+        c.apertureSamples = 1;
+    }
     return c;
 }
 
