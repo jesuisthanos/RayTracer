@@ -189,15 +189,15 @@ void Scene::render(Image &img)
     int n = superSampling;
     
     double goldenAngle = camera.apertureSamples * 137.508;  // this is still in degrees
+    double goldenRatio = (1.0 + sqrt(5)) / 2.0;
     double c = (double)camera.apertureRadius / (camera.up.length() * sqrt(camera.apertureSamples));
-    vector<Image> imgSamples;
-    for (int sample = 0; sample < camera.apertureSamples; sample++) {
-        //Image newSample(camera.viewWidth, camera.viewHeight);
-        double r = c * sqrt((double)sample);
-        double th = sample * goldenAngle;
-        offset = Triple(r * cos(th / 360), r * sin(th / 360), 0.0);
-        camera.eye = camera.eye + offset;
-        //// calculation for this sample
+    int apertureOffset = camera.viewWidth * camera.viewHeight * n * n - 1;
+    //for (int sample = 0; sample < camera.apertureSamples; sample++) {
+    //    //Image newSample(camera.viewWidth, camera.viewHeight);
+    //    double r = c * sqrt((double)sample);// -fmod(apertureOffset * goldenRatio, 1.0);
+    //    double th = sample * goldenAngle;// -(double)apertureOffset;
+    //    offset = Triple(r * cos(th / 360), r * sin(th / 360), 0.0);
+    //    Triple thiseye = camera.eye + offset;
         // camera setup
         Vector look = camera.center - camera.eye;
         Vector horizontal = look.cross(camera.up);
@@ -215,34 +215,44 @@ void Scene::render(Image &img)
                 Color col(0.0, 0.0, 0.0);
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
+                        Color colA(0.0, 0.0, 0.0);
                         Point pixel = camera.center + (2 * sx - 1.0 + pxWidth / (2 * n) + i * pxWidth / n) * horizontal
                             + (1.0 - 2 * sy + pxHeight / (2 * n) + j * pxHeight / n) * orthoUp;
-                        //(x + sx / (2 * n) + i * sx / n, h - 1 - y + 1.0 / (2 * n) + j * 1.0 / n, 0);
-                        Ray ray(camera.eye, (pixel - camera.eye).normalized());
+                        int px_idx = (camera.viewHeight - 1 - SY) * n * camera.viewWidth + SX * n + j;
+                        for (int sample = 0; sample < camera.apertureSamples; sample++) {
+                            double r = c * sqrt((double)sample) -fmod(px_idx * goldenRatio, 1.0);
+                            double th = sample * goldenAngle -(double)px_idx;
+                            offset = Triple(r * cos(th / 360), r * sin(th / 360), 0.0);
+                            Triple thiseye = camera.eye + offset;
+                            Ray ray(thiseye, (pixel - thiseye).normalized());
+                            Color colp = trace(ray);
+                            colA += colp;
+                        }
+                        colA = colA / camera.apertureSamples;
+                        col += colA;
+                        /*Ray ray(thiseye, (pixel - thiseye).normalized());
                         Color colp = trace(ray);
-                        col += colp;
+                        col += colp;*/
                     }
                 }
                 col = col / (n * n);
                 col.clamp();
-                img(SX, SY) += col;
+                img(SX, SY) = col;
             }
-        }
-        //// done calculation for this sample
-        //imgSamples.push_back(newSample);
+        //}
     }
 
     
         
-    for (int SX = 0; SX < camera.viewWidth; SX++) {
-        for (int SY = 0; SY < camera.viewHeight; SY++) {
-            /*Color px(0.0, 0.0, 0.0);
-            for (int sample = 0; sample < camera.apertureSamples; sample++) {
-                px += imgSamples.at(sample)(SX, SY);
-            }*/
-            img(SX, SY) /= camera.apertureSamples;
-        }
-    }
+    //for (int SX = 0; SX < camera.viewWidth; SX++) {
+    //    for (int SY = 0; SY < camera.viewHeight; SY++) {
+    //        /*Color px(0.0, 0.0, 0.0);
+    //        for (int sample = 0; sample < camera.apertureSamples; sample++) {
+    //            px += imgSamples.at(sample)(SX, SY);
+    //        }*/
+    //        img(SX, SY) /= camera.apertureSamples;
+    //    }
+    //}
 
     
     //// camera setup
