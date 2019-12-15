@@ -230,7 +230,10 @@ bool Raytracer::readScene(const std::string& inputFilename)
 void Raytracer::renderToFile(const std::string& outputFilename)
 {
     scene->sortZBuffer();
-    Image img(400,400);
+
+    // updated version of img initialization instead of dummy (400,400) which is
+    // incompatible with newer dynamic sizes
+    Image img(scene->getCamWidth(),scene->getCamHeight());
     cout << "Tracing..." << endl;
     scene->render(img);
     cout << "Writing image to " << outputFilename << "..." << endl;

@@ -42,6 +42,8 @@ public:
     void addObject(Object *o);
     void addLight(Light *l);
     void setCamera(Camera c);
+    int getCamHeight();
+    int getCamWidth();
     void setMode(string s);
     void setShadows(bool s);
     void setRecursionDepth(int d);

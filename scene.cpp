@@ -197,9 +197,9 @@ void Scene::render(Image &img)
     double pxWidth(1.0 / camera.viewWidth);
 
     for (int SX = 0; SX < camera.viewWidth; SX++) {
-        sx = (double)SX / camera.viewWidth;
+        sx = SX * pxWidth;
         for (int SY = 0; SY < camera.viewHeight; SY++) {
-            sy = (double)SY / camera.viewHeight;
+            sy = SY * pxHeight;
             Color col(0.0, 0.0, 0.0);
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -323,4 +323,12 @@ void Scene::sortZBuffer() {
     // for (int i = 0; i < objects.size(); i++) {
     //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
     // }
+}
+
+int Scene::getCamHeight() {
+    return camera.viewHeight;
+}
+
+int Scene::getCamWidth() {
+    return camera.viewWidth;
 }
