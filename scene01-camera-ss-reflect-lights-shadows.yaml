@@ -15,7 +15,7 @@
 Camera:
     eye: [200,200,1000]
     center: [200,200,0]
-    up: [0,1,0]
+    up: [0,0.2,0]
     viewSize: [400,400]
 
 Shadows: true
