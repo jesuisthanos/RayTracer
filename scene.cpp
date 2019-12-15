@@ -201,7 +201,7 @@ void Scene::render(Image &img)
         // camera setup
         Vector look = camera.center - camera.eye;
         Vector horizontal = look.cross(camera.up);
-        Vector orthoUp = horizontal.cross(look.normalized()).normalized() * camera.viewHeight / 2; // this will define half-long the vertical size of the view
+        Vector orthoUp = horizontal.cross(look.normalized()).normalized() * camera.up.length() * camera.viewHeight / 2; // this will define half-long the vertical size of the view
                                                 // because we do not have a viewing angle implemented
         horizontal = horizontal.normalized() * orthoUp.length() * camera.viewWidth / camera.viewHeight;
         double sx(0.0), sy(0.0);
