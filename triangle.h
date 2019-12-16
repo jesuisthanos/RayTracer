@@ -16,7 +16,7 @@ public:
 	void setNormal(Vector newNorm);
 
 	virtual Hit intersect(const Ray& ray);
-    virtual Triple mapTexture(const Ray &ray);
+    virtual Triple mapTexture(const Ray &ray, const Hit &hit);
 
 	const Point vertex1;
 	const Point vertex2;

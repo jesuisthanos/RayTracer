@@ -25,7 +25,7 @@ public:
     Sphere(Point position,double r,Vector arctic,Vector greenwich) : position(position), r(r), arctic(arctic), greenwich(greenwich) { }
 
     virtual Hit intersect(const Ray &ray);
-    virtual Triple mapTexture(const Ray &ray);
+    virtual Triple mapTexture(const Ray &ray, const Hit &hit);
 
     const Point position;
     const double r;
