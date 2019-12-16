@@ -22,13 +22,15 @@
 class Sphere : public Object
 {
 public:
-    Sphere(Point position,double r) : position(position), r(r) { }
+    Sphere(Point position,double r,Vector arctic,Vector greenwich) : position(position), r(r), arctic(arctic), greenwich(greenwich) { }
 
     virtual Hit intersect(const Ray &ray);
     virtual Triple mapTexture(const Ray &ray);
 
     const Point position;
     const double r;
+    const Vector arctic;
+    const Vector greenwich;
 };
 
 #endif /* end of include guard: SPHERE_H_115209AE */

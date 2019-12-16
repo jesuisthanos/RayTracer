@@ -7,7 +7,7 @@ class Triangle : public Object
 {
 public:
 	Vector normal;
-	Triangle(Point v1, Point v2, Point v3) : vertex1(v1), vertex2(v2), vertex3(v3) {
+	Triangle(Point v1, Point v2, Point v3, bool leftSide) : vertex1(v1), vertex2(v2), vertex3(v3), leftSide(leftSide) {
 		Vector norm = (vertex1 - vertex2).cross(vertex1 - vertex3);
 		normal = norm / norm.length();
 	}
@@ -21,6 +21,8 @@ public:
 	const Point vertex1;
 	const Point vertex2;
 	const Point vertex3;
+
+	const bool leftSide;
 };
 
 #endif /* TRIANGLE_H */
