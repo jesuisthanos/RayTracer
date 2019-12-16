@@ -77,3 +77,7 @@ Hit Sphere::intersect(const Ray &ray)
 
     return Hit(t,N);
 }
+
+Triple Sphere::mapTexture(const Ray &ray){
+    return Triple(1, 0, 0);
+}

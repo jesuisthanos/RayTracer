@@ -71,3 +71,7 @@ Hit Triangle::intersect(const Ray& ray)
 		}	
 	}
 }
+
+Triple Triangle::mapTexture(const Ray &ray){
+	return Triple(0, 0, 1);
+}
