@@ -79,5 +79,35 @@ Hit Sphere::intersect(const Ray &ray)
 }
 
 Triple Sphere::mapTexture(const Ray &ray, const Hit &hit){
-    return Triple(1, 0, 0);
+    Vector longtitude = arctic.cross(hit.N).cross(arctic).normalized();
+    //Vector latitude = arctic.cross(hit.normalize();
+    Vector origin = arctic.cross(greenwich).cross(arctic).normalized();
+
+    double dx(0.0);
+    double dy(0.0);
+
+    bool left = longtitude.cross(origin).dot(arctic) < 0;
+    double dummyLong = longtitude.dot(origin);
+    dummyLong /= 4;
+    dummyLong += 0.25;
+
+    if (left) {
+        dx = dummyLong;
+    }
+    else {
+        dx = -dummyLong;
+    }
+
+    bool up = arctic.dot(hit.N) > 0;
+
+    double dummyLat = hit.N.dot(longtitude) / 2;
+
+    if (up) {
+        dy = -dummyLat;
+    }
+    else {
+        dy = dummyLat;
+    }
+
+    return Triple(dx + 0.5, 0, dy + 0.5);
 }

@@ -87,7 +87,8 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
         color = Triple(xColor, yColor, zColor);
     
     } else if (mode == "texCoords") {
-        color = obj->mapTexture(ray);
+        color = obj->mapTexture(ray, min_hit);
+        //cout << endl;
 
     } else {    // render with Phong model
         Vector L;
@@ -194,6 +195,11 @@ void Scene::render(Image &img)
     double goldenAngle = camera.apertureSamples * 137.508;  // this is still in degrees
     double c = (double)camera.apertureRadius / (camera.up.length() * sqrt(camera.apertureSamples));
     vector<Image> imgSamples;
+    for (int i = 0; i < camera.viewWidth; i++) {
+        for (int j = 0; j < camera.viewHeight; j++) {
+            img(i, j) = Triple(0.0, 0.0, 0.0);
+        }
+    }
     for (int sample = 0; sample < camera.apertureSamples; sample++) {
         //Image newSample(camera.viewWidth, camera.viewHeight);
         double r = c * sqrt((double)sample);
