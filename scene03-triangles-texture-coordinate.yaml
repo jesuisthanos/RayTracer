@@ -25,39 +25,6 @@ Objects:
     ks: 0.9
     n: 64
 #	triangle 1
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [150,100,100]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [200,250,100]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [250,100,100]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
 - type: triangle
   leftSide: true
   vertex1: [150,100,100]
@@ -70,39 +37,6 @@ Objects:
     ks: 0.3
     n: 64
 #	triangle 2
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [100,100,350]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [100,250,300]
-  radius: 5 
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [100,100,250]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
 - type: triangle
   leftSide: true
   vertex1: [100,100,250]
@@ -115,39 +49,6 @@ Objects:
     ks: 0.3
     n: 64
 #	triangle 3
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [300,100,250]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [300,250,300]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
-- type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
-  position: [300,100,350]
-  radius: 5
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
 - type: triangle
   leftSide: true
   vertex1: [300,100,250]
@@ -158,4 +59,15 @@ Objects:
     ka: 0.2
     kd: 0.5
     ks: 0.3
+    n: 64
+- type: sphere
+  arctic: [0, 1, 0]
+  greenwich: [0, 1, 1]
+  position: [200,200,300]
+  radius: 20
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.9
+    ks: 0.9
     n: 64
