@@ -111,17 +111,16 @@ Object* Raytracer::parseObject(const YAML::Node& node)
 
 	if (objectType == "triangle") {
 		Point v1, v2, v3;
-        bool leftSide;
+        bool rightSide;
 		node["vertex1"] >> v1;
 		node["vertex2"] >> v2;
 		node["vertex3"] >> v3;
         try{
-            leftSide = (node["leftSide"] == "true");
+            rightSide = (node["rightSide"] == "true");
         }catch(exception e){
-            leftSide = false;
+            rightSide = false;
         }
-		Triangle *t = new Triangle(v1, v2, v3, leftSide);
-		// std::cout << "triangle(" << t->vertex1.x << " " << t->vertex1.y << " " << t->vertex1.z << ", " << t->vertex2.x << " " << t->vertex2.y << " " << t->vertex2.z << ", " << t->vertex3.x << " " << t->vertex3.y << " " << t->vertex3.z << ")" << std::endl;
+		Triangle *t = new Triangle(v1, v2, v3, rightSide);
 		returnObject = t;
 	}
 

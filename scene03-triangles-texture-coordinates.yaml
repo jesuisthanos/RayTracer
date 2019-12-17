@@ -26,7 +26,7 @@ Objects:
     n: 64
 #	triangle 1
 - type: triangle
-  leftSide: true
+  rightSide: false
   vertex1: [150,100,100]
   vertex2: [200,250,100]
   vertex3: [250,100,100]
@@ -38,7 +38,7 @@ Objects:
     n: 64
 #	triangle 2
 - type: triangle
-  leftSide: true
+  rightSide: false
   vertex1: [100,100,250]
   vertex2: [100,250,300]
   vertex3: [100,100,350]
@@ -50,7 +50,7 @@ Objects:
     n: 64
 #	triangle 3
 - type: triangle
-  leftSide: true
+  rightSide: false
   vertex1: [300,100,250]
   vertex2: [300,250,300]
   vertex3: [300,100,350]
@@ -170,7 +170,7 @@ Objects:
     n: 64
 # textured rectangle
 - type: triangle
-  leftSide: true
+  rightSide: false
   vertex1: [150,150,300]
   vertex2: [250,150,300]
   vertex3: [150,100,300]
@@ -181,7 +181,7 @@ Objects:
     ks: 0.3
     n: 64
 - type: triangle
-  leftSide: true
+  rightSide: true
   vertex1: [250,100,300]
   vertex2: [150,100,300]
   vertex3: [250,150,300]
