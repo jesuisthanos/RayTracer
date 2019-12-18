@@ -86,7 +86,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
         color = Triple(xColor, yColor, zColor);
     
     } else if (mode == "texCoords") {
-        color = obj->mapTexture(ray, min_hit);
+        color = obj->mapTexture(ray, min_hit, hit);
         //cout << endl;
 
     } else {    // render with Phong model

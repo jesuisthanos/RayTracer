@@ -78,7 +78,7 @@ Hit Sphere::intersect(const Ray &ray)
     return Hit(t,N);
 }
 
-Triple Sphere::mapTexture(const Ray &ray, const Hit &hit){
+Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
     Vector longtitude = arctic.cross(hit.N).cross(arctic).normalized();
     //Vector latitude = arctic.cross(hit.normalize();
     Vector origin = arctic.cross(greenwich).cross(arctic).normalized();
