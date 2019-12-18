@@ -92,7 +92,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
     } else {    // render with Phong model
         Color objColor = material->color;
         if(material->hasTexture){
-            Triple textureMap = obj->mapTexture(ray, min_hit);
+            Triple textureMap = obj->mapTexture(ray, min_hit, hit);
 			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
         }
 
