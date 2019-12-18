@@ -17,11 +17,14 @@
 
 #include <iostream>
 #include "triple.h"
+#include "image.h"
 
 class Material
 {
 public:
     Color color;        // base color
+    Image *texture;     // texture data
+    bool hasTexture = false;    // true if the object has a texture
     double ka;          // ambient intensity
     double kd;          // diffuse intensity
     double ks;          // specular intensity 

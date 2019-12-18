@@ -70,7 +70,28 @@ Camera parseCamera(const YAML::Node& node)
 Material* Raytracer::parseMaterial(const YAML::Node& node)
 {
     Material *m = new Material();
-    node["color"] >> m->color;	
+    try{
+    node["color"] >> m->color;
+    } catch (exception e) {
+        m->color = Color(1, 1, 1);
+    }
+    try{
+    node["color"] >> m->color;
+    } catch (exception e) {
+        m->color = Color(1, 1, 1);
+    }
+    try{
+        string textureName = node["texture"];
+        try{
+            m->texture = new Image(textureName.c_str());
+            m->hasTexture = true;
+            std::cout << "Loaded texture " << textureName << std::endl;
+        } catch (exception e) {
+            std::cerr << "ERROR: Failed to load texture " << textureName << std::endl;
+        }
+    } catch (exception e) {
+        //no texture to load
+    }
     node["ka"] >> m->ka;
     node["kd"] >> m->kd;
     node["ks"] >> m->ks;

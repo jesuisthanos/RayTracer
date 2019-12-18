@@ -60,7 +60,6 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
     ****************************************************/
 	
     Color color = Color(0.0, 0.0, 0.0);
-    Color matColor = material->color;
 
     if (mode == "zbuffer") {    // Render zbuffer as grayscale image
         // Determine far & near boundaries of the buffer
@@ -91,6 +90,12 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
         //cout << endl;
 
     } else {    // render with Phong model
+        Color objColor = material->color;
+        if(material->hasTexture){
+            Triple textureMap = obj->mapTexture(ray, min_hit);
+			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
+        }
+
         Vector L;
         Vector L_norm;
 
@@ -101,7 +106,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             L_norm = L / L.length();
 
             // Ambient lighting
-            color += matColor * lightColor * material->ka;
+            color += objColor * lightColor * material->ka;
 
             // Detect shadows
             bool inShadow = false;
@@ -113,7 +118,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             if(!inShadow){
                 // Diffuse lighting
                 if (L_norm.dot(N) > 0){
-                    color += matColor * lightColor * material->kd * L_norm.dot(N);
+                    color += objColor * lightColor * material->kd * L_norm.dot(N);
                 }
 
                 if (mode != "phongNoSpecular"){

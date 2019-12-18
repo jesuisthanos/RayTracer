@@ -2,6 +2,6 @@
 .vs/*
 Debug/*
 *.o
-*.png
+scene*.png
 make.dep
 ray

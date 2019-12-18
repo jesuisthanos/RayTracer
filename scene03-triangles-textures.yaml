@@ -61,108 +61,108 @@ Objects:
   greenwich: [1, 0, 1]
   position: [150,300,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # top center sphere
 - type: sphere
   arctic: [0, 1, 1]
   greenwich: [0, 0, 1]
   position: [200,300,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # top right sphere
 - type: sphere
   arctic: [-1, 1, 1]
   greenwich: [-1, 0, 1]
   position: [250,300,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # left sphere
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [1, 1, 1]
   position: [150,250,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # center sphere
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [0, 1, 1]
   position: [200,250,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # right sphere
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [-1, 1, 1]
   position: [250,250,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # bottom left sphere
 - type: sphere
   arctic: [-1, 1, -1]
   greenwich: [1, 1, 1]
   position: [150,200,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # bottom center sphere
 - type: sphere
   arctic: [0, 1, -1]
   greenwich: [0, 1, 1]
   position: [200,200,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # bottom right sphere
 - type: sphere
   arctic: [1, 1, -1]
   greenwich: [-1, 1, 1]
   position: [250,200,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # textured rectangle
 - type: triangle
   rightSide: false
