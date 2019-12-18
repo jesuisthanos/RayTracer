@@ -25,6 +25,8 @@
 class Raytracer {
 private:
     Scene *scene;
+    std::vector<Image*> textures;
+    std::vector<string> textureNames;
 
     // Couple of private functions for parsing YAML nodes
     Material* parseMaterial(const YAML::Node& node);
