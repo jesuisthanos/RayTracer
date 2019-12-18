@@ -83,10 +83,23 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
     try{
         string textureName = node["texture"];
         try{
-            std::cout << "Loading texture : " << textureName << std::endl;
-            m->texture = new Image(textureName.c_str());
+            bool found = false;
+            unsigned int i = 0;
+            //check if the  texture is already loaded
+            while(!found && i < textureNames.size()){
+                found = (textureNames.at(i) == textureName);
+                i++;
+            }
+            if(found){
+                m->texture = textures.at(i-1);
+            }else{
+                std::cout << std::endl << "Loading texture : " << textureName << std::endl;
+                textures.push_back(new Image(textureName.c_str()));
+                textureNames.push_back(textureName);
+                m->texture = textures.back();
+                std::cout << "Texture " << textureName << " loaded" << std::endl << std::endl;
+            }
             m->hasTexture = true;
-            std::cout << "Texture " << textureName << " loaded" << std::endl << std::endl;
         } catch (exception e) {
             std::cerr << "ERROR: Failed to load texture " << textureName << std::endl <<std::endl;
         }
@@ -278,7 +291,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
         return false;
     }
 
-    cout << "YAML parsing results: " << scene->getNumObjects() << " objects read." << endl;
+    cout << endl << "YAML parsing results: " << endl << scene->getNumObjects() << " objects and " << scene->getNumLights() << " lights read." << endl;
+    cout << textures.size() << " textures loaded." << endl << endl;
     return true;
 }
 
