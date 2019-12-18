@@ -22,15 +22,27 @@
 class Sphere : public Object
 {
 public:
-    Sphere(Point position,double r,Vector arctic,Vector greenwich) : position(position), r(r), arctic(arctic), greenwich(greenwich) { }
+    Sphere(Point position,double r,Vector arctic,Vector greenwich) : position(position), r(r), arctic(arctic), greenwich(greenwich), isRotated(false),
+    rotationAngle(0.0), rotationVect(Vector(0, 1, 0)){ }
+    Sphere(Point position, double r, Vector arctic, Vector greenwich, Vector rotationVect, double rotationAngle) :
+        position(position), r(r), arctic(arctic), greenwich(greenwich), rotationVect(rotationVect), rotationAngle(rotationAngle), isRotated(true) {
+        rotationVect.normalize();
+        Vector a = arctic.dot(rotationVect) * rotationVect;
+        Vector a1 = arctic - a;
+        Vector b = greenwich.dot(rotationVect) * rotationVect;
+        Vector b1 = greenwich - b;
+    }
 
     virtual Hit intersect(const Ray &ray);
     virtual Triple mapTexture(const Ray &ray, const Hit &hit, const Point &point);
 
     const Point position;
     const double r;
-    const Vector arctic;
-    const Vector greenwich;
+    Vector arctic;
+    Vector greenwich;
+    const bool isRotated;
+    Vector rotationVect;
+    const double rotationAngle;
 };
 
 #endif /* end of include guard: SPHERE_H_115209AE */

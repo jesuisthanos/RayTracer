@@ -120,6 +120,9 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["radius"] >> r;
         Triple arctic;
         Triple greenwich;
+        Vector rotationVect;
+        double rotationAngle;
+        Sphere* sphere;
         try{
             node["arctic"] >> arctic;
             node["greenwich"] >> greenwich;
@@ -127,7 +130,15 @@ Object* Raytracer::parseObject(const YAML::Node& node)
             arctic = Triple(0, 1, 0);
             greenwich = Triple(0, 1, 1);
         }
-        Sphere *sphere = new Sphere(pos,r,arctic,greenwich);
+        try {
+            node["rotationVect"] >> rotationVect;
+            node["rotationAngle"] >> rotationAngle;
+            sphere = new Sphere(pos, r, arctic, greenwich, rotationVect, rotationAngle);
+        }
+        catch (exception e) {
+            sphere = new Sphere(pos, r, arctic, greenwich);
+        }
+        //Sphere *sphere = new Sphere(pos,r,arctic,greenwich);
         returnObject = sphere;
     }
 
