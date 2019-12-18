@@ -24,7 +24,7 @@ class Material
 public:
     Color color;        // base color
     Image *texture;     // texture data
-    bool hasTexture = false;    // true if the object has a texture
+    bool hasTexture;    // true if the object has a texture
     double ka;          // ambient intensity
     double kd;          // diffuse intensity
     double ks;          // specular intensity 
@@ -32,7 +32,9 @@ public:
     double refract;           // refraction transparency
     double eta;           // refraction index
 
-    Material() { }
+    Material() {
+        hasTexture = false;
+    }
 };
 
 #endif /* end of include guard: MATERIAL_H_TWMNT2EJ */

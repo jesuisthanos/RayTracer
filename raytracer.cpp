@@ -83,9 +83,10 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
     try{
         string textureName = node["texture"];
         try{
+            std::cout << "Loading texture : " << textureName << std::endl;
             m->texture = new Image(textureName.c_str());
             m->hasTexture = true;
-            std::cout << "Loaded texture " << textureName << std::endl;
+            std::cout << "Texture " << textureName << " loaded" << std::endl;
         } catch (exception e) {
             std::cerr << "ERROR: Failed to load texture " << textureName << std::endl;
         }
