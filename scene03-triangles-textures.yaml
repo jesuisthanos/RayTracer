@@ -3,7 +3,11 @@
 
 Shadows: false
 
-Eye: [200,200,1000]
+Camera:
+    eye: [200,200,1000]
+    center: [200,200,0]
+    up: [0,0.5,0]
+    viewSize: [800,800]
 
 Lights:
 - position: [500,400,400]
@@ -170,9 +174,9 @@ Objects:
   vertex2: [250,150,300]
   vertex3: [150,100,300]
   material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
+    texture: highGround.png
+    ka: 0.5
+    kd: 0.8
     ks: 0.3
     n: 64
 - type: triangle
@@ -181,8 +185,8 @@ Objects:
   vertex2: [150,100,300]
   vertex3: [250,150,300]
   material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
+    texture: highGround.png
+    ka: 0.5
+    kd: 0.8
     ks: 0.3
-    n: 64 
+    n: 64

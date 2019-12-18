@@ -5,7 +5,11 @@ RenderMode: "texCoords"
 
 Shadows: false
 
-Eye: [200,200,1000]
+Camera:
+    eye: [200,200,1000]
+    center: [200,200,0]
+    up: [0,0.5,0]
+    viewSize: [800,800]
 
 Lights:
 - position: [500,400,400]
@@ -26,7 +30,6 @@ Objects:
     n: 64
 #	triangle 1
 - type: triangle
-  rightSide: false
   vertex1: [150,100,100]
   vertex2: [200,250,100]
   vertex3: [250,100,100]
@@ -38,7 +41,6 @@ Objects:
     n: 64
 #	triangle 2
 - type: triangle
-  rightSide: false
   vertex1: [100,100,250]
   vertex2: [100,250,300]
   vertex3: [100,100,350]
@@ -50,7 +52,6 @@ Objects:
     n: 64
 #	triangle 3
 - type: triangle
-  rightSide: false
   vertex1: [300,100,250]
   vertex2: [300,250,300]
   vertex3: [300,100,350]
@@ -66,108 +67,108 @@ Objects:
   greenwich: [1, 0, 1]
   position: [150,300,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # top center sphere
 - type: sphere
   arctic: [0, 1, 1]
   greenwich: [0, 0, 1]
   position: [200,300,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # top right sphere
 - type: sphere
   arctic: [-1, 1, 1]
   greenwich: [-1, 0, 1]
   position: [250,300,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # left sphere
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [1, 1, 1]
   position: [150,250,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # center sphere
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [0, 1, 1]
   position: [200,250,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # right sphere
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [-1, 1, 1]
   position: [250,250,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # bottom left sphere
 - type: sphere
   arctic: [-1, 1, -1]
   greenwich: [1, 1, 1]
   position: [150,200,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # bottom center sphere
 - type: sphere
   arctic: [0, 1, -1]
   greenwich: [0, 1, 1]
   position: [200,200,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # bottom right sphere
 - type: sphere
   arctic: [1, 1, -1]
   greenwich: [-1, 1, 1]
   position: [250,200,300]
   radius: 20
-  material: # green
-    color: [0.0,1.0,0.0]
+  material:
+    texture: earthmap1k.png
     ka: 0.2
-    kd: 0.5
-    ks: 0.3
-    n: 64
+    kd: 0.8
+    ks: 0
+    n: 1
 # textured rectangle
 - type: triangle
   rightSide: false
@@ -175,9 +176,9 @@ Objects:
   vertex2: [250,150,300]
   vertex3: [150,100,300]
   material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
+    texture: highGround.png
+    ka: 0.5
+    kd: 0.8
     ks: 0.3
     n: 64
 - type: triangle
@@ -186,8 +187,8 @@ Objects:
   vertex2: [150,100,300]
   vertex3: [250,150,300]
   material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
+    texture: highGround.png
+    ka: 0.5
+    kd: 0.8
     ks: 0.3
-    n: 64 
+    n: 64
