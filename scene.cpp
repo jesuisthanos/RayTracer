@@ -98,10 +98,10 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
 			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
         }
 
-        Vector L;
-        Vector L_norm;
 
         // Take each light into account
+        Vector L;
+        Vector L_norm;
         for (std::size_t i = 0; i < lights.size(); ++i){
             Color lightColor = lights.at(i)->color;
             L = lights.at(i)->position - hit;
@@ -138,6 +138,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             color += trace(reflectRay, recursionDepth + 1, contribution*material->ks) * material->ks;
         }
 
+        // Refraction
         if(recursionDepth < maxRecursionDepth && material->eta > 0 && material->refract > 0){
             double n;
             double cos1 = N.dot(ray.D);

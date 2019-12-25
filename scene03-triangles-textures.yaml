@@ -20,8 +20,8 @@ Objects:
   greenwich: [0, 1, 1]
   position: [200,-900,0]
   radius: 1000
-  material: # white
-    color: [1.0,1.0,1.0]
+  material:
+    texture: marsmap1k.png
     ka: 0.2
     kd: 0.9
     ks: 0.9
@@ -31,33 +31,39 @@ Objects:
   vertex1: [150,100,100]
   vertex2: [200,250,100]
   vertex3: [250,100,100]
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
+  # red flame
+  rightSide: false
+  material:
+    texture: Fire.png
+    ka: 1.0
+    kd: 0.0
+    ks: 0.0
     n: 64
 #	triangle 2
 - type: triangle
   vertex1: [100,100,250]
   vertex2: [100,250,300]
   vertex3: [100,100,350]
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
+  # blue flame
+  rightSide: true
+  material:
+    texture: Fire.png
+    ka: 1.0
+    kd: 0.0
+    ks: 0.0
     n: 64
 #	triangle 3
 - type: triangle
   vertex1: [300,100,250]
   vertex2: [300,250,300]
   vertex3: [300,100,350]
-  material: # green
-    color: [0.0,1.0,0.0]
-    ka: 0.2
-    kd: 0.5
-    ks: 0.3
+  # blue flame
+  rightSide: true
+  material:
+    texture: Fire.png
+    ka: 1.0
+    kd: 0.0
+    ks: 0.0
     n: 64
 # top left sphere
 - type: sphere
@@ -169,22 +175,22 @@ Objects:
     n: 1
 # textured rectangle
 - type: triangle
-  rightSide: false
   vertex1: [150,150,300]
   vertex2: [250,150,300]
   vertex3: [150,100,300]
-  material: # green
+  rightSide: false
+  material:
     texture: highGround.png
     ka: 0.5
     kd: 0.8
     ks: 0.3
     n: 64
 - type: triangle
-  rightSide: true
   vertex1: [250,100,300]
   vertex2: [150,100,300]
   vertex3: [250,150,300]
-  material: # green
+  rightSide: true
+  material:
     texture: highGround.png
     ka: 0.5
     kd: 0.8

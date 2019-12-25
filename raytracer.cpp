@@ -76,11 +76,6 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
         m->color = Color(1, 1, 1);
     }
     try{
-    node["color"] >> m->color;
-    } catch (exception e) {
-        m->color = Color(1, 1, 1);
-    }
-    try{
         string textureName = node["texture"];
         try{
             bool found = false;
@@ -97,9 +92,12 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
                 textures.push_back(new Image(textureName.c_str()));
                 textureNames.push_back(textureName);
                 m->texture = textures.back();
-                std::cout << "Texture " << textureName << " loaded" << std::endl << std::endl;
+                if(m->texture->size() > 0)
+                    std::cout << "Texture " << textureName << " loaded (" << m->texture->width() << "x" << m->texture->height() << ")" << std::endl << std::endl;
+                else
+                    std::cerr << "ERROR: texture " << textureName << " missing or empty" << std::endl <<std::endl;
             }
-            m->hasTexture = true;
+            m->hasTexture = (m->texture->size() > 0);
         } catch (exception e) {
             std::cerr << "ERROR: Failed to load texture " << textureName << std::endl <<std::endl;
         }
