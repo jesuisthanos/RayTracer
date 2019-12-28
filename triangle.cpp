@@ -73,8 +73,10 @@ Hit Triangle::intersect(const Ray& ray)
 }
 
 Triple Triangle::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
-	Vector horizontal = vertex2 - vertex1;
-	Vector vertical = vertex3 - vertex1;
+	Vector AB = vertex2 - vertex1;
+	Vector AC = vertex3 - vertex1;
+	Vector horizontal = AB - (AB.dot(AC.normalized()))*(AC.normalized());
+	Vector vertical = AC - (AC.dot(AB.normalized()))*(AB.normalized());
 	Vector horizontalUnit = horizontal.normalized();
 	Vector verticalUnit = vertical.normalized();
 	Vector pointVector = point - vertex1;
