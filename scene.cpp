@@ -106,6 +106,13 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             L = lights.at(i)->position - hit;
             L_norm = L.normalized();
 
+            // Gooch shading
+            Color kd = lightColor * objColor * material->kd;
+            Color kBlue = Triple(0, 0, goochParameters.b);
+            Color kYellow = Triple(goochParameters.y, goochParameters.y, 0);
+            Color kCool = kBlue + goochParameters.alpha*kd;
+            Color kWarm = kYellow + goochParameters.beta*kd;
+            color += kCool*(1 - N.dot(L_norm))/2 + kWarm*(1 + N.dot(L_norm))/2;
             
             // Specular lighting
             if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){

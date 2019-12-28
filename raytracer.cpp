@@ -231,7 +231,15 @@ bool Raytracer::readScene(const std::string& inputFilename)
             try {
                 scene->setGoochParameters(parseGooch(doc["GoochParameters"]));
             } catch (exception e) {
-
+                if (scene->getMode() == "gooch"){
+                    std::cerr << "ERROR: Gooch parameters missing or invalid, using default values instead." << std::endl;
+                    GoochParameters goochParameters;
+                    goochParameters.b = 0.55;
+                    goochParameters.y = 0.3;
+                    goochParameters.alpha = 0.25;
+                    goochParameters.beta = 0.5;
+                    scene->setGoochParameters(goochParameters);
+                }
             }
 
             try{

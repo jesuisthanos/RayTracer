@@ -54,6 +54,7 @@ public:
     void sortObjects(vector<Object*>&, int, int);
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);
+    string getMode() { return mode; }
     unsigned int getNumObjects() { return objects.size(); }
     unsigned int getNumLights() { return lights.size(); }
 };
