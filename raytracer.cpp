@@ -15,13 +15,14 @@
 //
 
 #include "raytracer.h"
+#include "GoochParameters.h"
+#include "camera.h"
 #include "object.h"
 #include "sphere.h"
 #include "triangle.h"
 #include "material.h"
-#include "light.h"
 #include "image.h"
-#include "camera.h"
+#include "light.h"
 #include "yaml/yaml.h"
 #include <ctype.h>
 #include <fstream>
@@ -39,13 +40,13 @@ void operator >> (const YAML::Node& node, Triple& t)
     node[2] >> t.z;
 }
 
-Triple parseTriple(const YAML::Node& node)
-{
-    Triple t;
-    node[0] >> t.x;
-    node[1] >> t.y;
-    node[2] >> t.z;	
-    return t;
+GoochParameters parseGooch(const YAML::Node& node){
+    GoochParameters g;
+    node["b"] >> g.b;
+    node["y"] >> g.y;
+    node["alpha"] >> g.alpha;
+    node["beta"] >> g.beta;
+    return g;
 }
 
 Camera parseCamera(const YAML::Node& node)
@@ -65,6 +66,15 @@ Camera parseCamera(const YAML::Node& node)
         c.apertureSamples = 1;
     }
     return c;
+}
+
+Triple parseTriple(const YAML::Node& node)
+{
+    Triple t;
+    node[0] >> t.x;
+    node[1] >> t.y;
+    node[2] >> t.z;	
+    return t;
 }
 
 Material* Raytracer::parseMaterial(const YAML::Node& node)
@@ -216,6 +226,23 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 // Render mode not specified, default to phong
                 scene->setMode("phong");
             }
+
+            // Gooch parameters
+            try {
+                scene->setGoochParameters(parseGooch(doc["GoochParameters"]));
+            } catch (exception e) {
+
+            }
+
+            try{
+                // Camera parameters
+                scene->setCamera(parseCamera(doc["Camera"]));
+            } catch (exception e){
+                // Eye position
+                Camera camera;
+                camera.eye = parseTriple(doc["Eye"]);
+                scene->setCamera(camera);
+            }
             
             // Shadows
             try {
@@ -240,19 +267,9 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 int superSampling = doc["SuperSampling"]["factor"];
                 scene->setSuperSampling(superSampling);
             } catch (exception e) {
+                // superSampling not specified, no superSampling.
                 scene->setSuperSampling(1);
             }
-
-            try{
-                // Camera parameters
-                scene->setCamera(parseCamera(doc["Camera"]));
-            } catch (exception e){
-                // Eye position
-                Camera camera;
-                camera.eye = parseTriple(doc["Eye"]);
-                scene->setCamera(camera);
-            }
-
 
             // Read and parse the scene objects
             const YAML::Node& sceneObjects = doc["Objects"];

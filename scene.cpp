@@ -89,6 +89,30 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
         color = obj->mapTexture(ray, min_hit, hit);
         //cout << endl;
 
+    } else if (mode == "gooch") {   // render with Gooch model
+
+        //calculate object color from material & texture
+        Color objColor = material->color;
+        if(material->hasTexture){
+            Triple textureMap = obj->mapTexture(ray, min_hit, hit);
+			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
+        }
+        
+        // Take each light into account
+        Vector L;
+        Vector L_norm;
+        for (std::size_t i = 0; i < lights.size(); ++i){
+            Color lightColor = lights.at(i)->color;
+            L = lights.at(i)->position - hit;
+            L_norm = L.normalized();
+
+            
+            // Specular lighting
+            if ((2 * L_norm.dot(N) * N - L_norm).dot(V) > 0){
+                color += lightColor * material->ks * pow((2 * L_norm.dot(N) * N - L_norm).dot(V), material->n);
+            }
+        }
+        
     } else {    // render with Phong model
 
         //calculate object color from material & texture
@@ -97,15 +121,14 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
             Triple textureMap = obj->mapTexture(ray, min_hit, hit);
 			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
         }
-
-
+        
         // Take each light into account
         Vector L;
         Vector L_norm;
         for (std::size_t i = 0; i < lights.size(); ++i){
             Color lightColor = lights.at(i)->color;
             L = lights.at(i)->position - hit;
-            L_norm = L / L.length();
+            L_norm = L.normalized();
 
             // Ambient lighting
             color += objColor * lightColor * material->ka;
@@ -381,14 +404,14 @@ void Scene::render(Image &img)
     //}
 }
 
-void Scene::addObject(Object *o)
-{
-    objects.push_back(o);
+void Scene::setMode(string s) {
+    mode = s;
+    std::cout << "render mode : " << mode << std::endl;
 }
 
-void Scene::addLight(Light *l)
-{
-    lights.push_back(l);
+void Scene::setGoochParameters(GoochParameters g){
+    goochParameters = g;
+    std::cout << "Gooch parameters: b=" << goochParameters.b << " y=" << goochParameters.y << " alpha=" << goochParameters.alpha << " beta=" << goochParameters.beta << std::endl;
 }
 
 void Scene::setCamera(Camera c)
@@ -402,10 +425,6 @@ void Scene::setCamera(Camera c)
     std::cout << "apertureSamples : " << camera.apertureSamples << std::endl;
 }
 
-void Scene::setMode(string s) {
-    mode = s;
-}
-
 void Scene::setShadows(bool s) {
     shadows = s;
 }
@@ -417,6 +436,16 @@ void Scene::setRecursionDepth(int d) {
 void Scene::setSuperSampling(int s){
     superSampling = s;
     std::cout << "SuperSampling factor : " << superSampling << std::endl;
+}
+
+void Scene::addObject(Object *o)
+{
+    objects.push_back(o);
+}
+
+void Scene::addLight(Light *l)
+{
+    lights.push_back(l);
 }
 
 void Scene::sortObjects(vector<Object*>& objects, int low, int high) {

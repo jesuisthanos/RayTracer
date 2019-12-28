@@ -1,5 +1,5 @@
-#ifndef TRIPLE_H
-#define TRIPLE_H
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include "triple.h"
 
@@ -26,4 +26,4 @@ public:
 	
 };
 
-#endif /* TRIPLE_H */
+#endif /* CAMERA_H */
