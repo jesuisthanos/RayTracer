@@ -1,0 +1,684 @@
+---
+#  scene04 - Scene with shadows and reflections
+
+RenderMode: "gooch"
+GoochParameters:
+  b: 0.55
+  y: 0.3
+  alpha: 0.25
+  beta: 0.5
+  outline: true
+
+Eye: [200,200,1000]  
+
+Shadows: true
+MaxRecursionDepth: 10
+
+Lights:
+- position: [250,250,600]
+  color: [1.0,1.0,1.0]
+
+Objects:
+# Section 1
+# Floor
+- type: triangle
+  vertex1: [100,100,0]
+  vertex2: [300,100,1100]
+  vertex3: [300,100,0]
+  material: # brown
+    color: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [100,100,0]
+  vertex2: [300,100,1100]
+  vertex3: [100,100,1100]
+  material: # brown
+    color: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+
+# Ceiling
+- type: triangle
+  vertex1: [100,300,1100]
+  vertex2: [300,300,0]
+  vertex3: [300,300,1100]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,300,1100]
+  vertex2: [300,300,0]
+  vertex3: [100,300,0]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Wall left
+# Bottom
+- type: triangle
+  vertex1: [100,140,1100]
+  vertex2: [100,100,0]
+  vertex3: [100,140,0]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,140,1100]
+  vertex2: [100,100,0]
+  vertex3: [100,100,1100]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+# Top
+- type: triangle
+  vertex1: [100,300,1100]
+  vertex2: [100,140,0]
+  vertex3: [100,300,0]
+  material: # light blue
+    color: [0.5,0.7,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,300,1100]
+  vertex2: [100,140,0]
+  vertex3: [100,140,1100]
+  material: # light blue
+    color: [0.5,0.7,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+
+# Wall right
+# Bottom
+- type: triangle
+  vertex1: [300,140,-100]
+  vertex2: [300,100,1100]
+  vertex3: [300,140,1100]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [300,140,-100]
+  vertex2: [300,100,1100]
+  vertex3: [300,100,-100]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+# Top
+- type: triangle
+  vertex1: [300,300,-100]
+  vertex2: [300,140,1100]
+  vertex3: [300,300,1100]
+  material: # light blue
+    color: [0.5,0.7,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [300,300,-100]
+  vertex2: [300,140,1100]
+  vertex3: [300,140,-100]
+  material: # light blue
+    color: [0.5,0.7,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Platform
+# Top
+- type: triangle
+  vertex1: [180,120,200]
+  vertex2: [220,120,240]
+  vertex3: [220,120,200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [180,120,200]
+  vertex2: [220,120,240]
+  vertex3: [180,120,240]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+# Front
+- type: triangle
+  vertex1: [180,120,240]
+  vertex2: [220,100,240]
+  vertex3: [220,120,240]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [180,120,240]
+  vertex2: [220,100,240]
+  vertex3: [180,100,240]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+# Left
+- type: triangle
+  vertex1: [180,120,200]
+  vertex2: [180,100,240]
+  vertex3: [180,120,240]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [180,120,200]
+  vertex2: [180,100,240]
+  vertex3: [180,100,200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+# right
+- type: triangle
+  vertex1: [220,120,240]
+  vertex2: [220,100,200]
+  vertex3: [220,120,200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [220,120,240]
+  vertex2: [220,100,200]
+  vertex3: [220,100,240]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+# Back
+- type: triangle
+  vertex1: [220,120,200]
+  vertex2: [180,100,200]
+  vertex3: [180,120,200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [220,120,200]
+  vertex2: [180,100,200]
+  vertex3: [220,100,200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+
+# Refraction sphere
+- type: sphere
+  position: [200,140,220]
+  radius: 20
+  material: # glass
+    color: [0.0,0.0,0.0]
+    ka: 0.0
+    kd: 0.0
+    ks: 0.0
+    n: 1
+    refract: 1.0
+    eta: 1.5
+
+
+
+
+
+
+
+
+
+
+# Section 2
+# Floor
+- type: triangle
+  vertex1: [-200,100,-200]
+  vertex2: [300,100,0]
+  vertex3: [300,100,-200]
+  material: # brown
+    color: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [-200,100,-200]
+  vertex2: [300,100,0]
+  vertex3: [-200,100,0]
+  material: # brown
+    color: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+
+# Ceiling
+- type: triangle
+  vertex1: [-200,300,0]
+  vertex2: [300,300,-200]
+  vertex3: [300,300,0]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [-200,300,0]
+  vertex2: [300,300,-200]
+  vertex3: [-200,300,-200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Wall left
+# Bottom
+- type: triangle
+  vertex1: [100,140,0]
+  vertex2: [-200,100,0]
+  vertex3: [-200,140,0]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,140,0]
+  vertex2: [-200,100,0]
+  vertex3: [100,100,0]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+# Top
+- type: triangle
+  vertex1: [100,300,0]
+  vertex2: [-200,140,0]
+  vertex3: [-200,300,0]
+  material: # green
+    color: [0.5,1.0,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,300,0]
+  vertex2: [-200,140,0]
+  vertex3: [100,140,0]
+  material: # green
+    color: [0.5,1.0,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Wall right
+# Bottom
+- type: triangle
+  vertex1: [-200,140,-200]
+  vertex2: [100,100,-200]
+  vertex3: [100,140,-200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [-200,140,-200]
+  vertex2: [100,100,-200]
+  vertex3: [-200,100,-200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+# Top
+- type: triangle
+  vertex1: [-200,300,-200]
+  vertex2: [100,140,-200]
+  vertex3: [100,300,-200]
+  material: # green
+    color: [0.5,1.0,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [-200,300,-200]
+  vertex2: [100,140,-200]
+  vertex3: [-200,140,-200]
+  material: # green
+    color: [0.5,1.0,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Front left mirror
+# Bottom
+- type: triangle
+  vertex1: [-100,300,0]
+  vertex2: [-200,100,-100]
+  vertex3: [-200,300,-100]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+- type: triangle
+  vertex1: [-100,300,0]
+  vertex2: [-200,100,-100]
+  vertex3: [-100,100,0]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+    
+# Back left mirror
+# Bottom
+- type: triangle
+  vertex1: [-200,300,-100]
+  vertex2: [-100,100,-200]
+  vertex3: [-100,300,-200]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+- type: triangle
+  vertex1: [-200,300,-100]
+  vertex2: [-100,100,-200]
+  vertex3: [-200,100,-100]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+# Front right mirror
+# Bottom
+- type: triangle
+  vertex1: [200,300,-100]
+  vertex2: [300,100,0]
+  vertex3: [300,300,0]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+- type: triangle
+  vertex1: [200,300,-100]
+  vertex2: [300,100,0]
+  vertex3: [200,100,-100]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+    
+# Back right mirror
+# Bottom
+- type: triangle
+  vertex1: [300,300,-200]
+  vertex2: [200,100,-100]
+  vertex3: [200,300,-100]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+- type: triangle
+  vertex1: [300,300,-200]
+  vertex2: [200,100,-100]
+  vertex3: [300,100,-200]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+
+
+
+
+
+
+
+
+
+
+
+# Section 3
+# Floor
+- type: triangle
+  vertex1: [100,100,-400]
+  vertex2: [300,100,-200]
+  vertex3: [300,100,-400]
+  material: # brown
+    color: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+- type: triangle
+  vertex1: [100,100,-400]
+  vertex2: [300,100,-200]
+  vertex3: [100,100,-200]
+  material: # brown
+    color: [1.0,0.5,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64
+
+# Ceiling
+- type: triangle
+  vertex1: [100,300,-200]
+  vertex2: [300,300,-400]
+  vertex3: [300,300,-200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,300,-200]
+  vertex2: [300,300,-400]
+  vertex3: [100,300,-400]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# End mirror
+# Bottom
+- type: triangle
+  vertex1: [100,300,-400]
+  vertex2: [300,100,-400]
+  vertex3: [300,300,-400]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+- type: triangle
+  vertex1: [100,300,-400]
+  vertex2: [300,100,-400]
+  vertex3: [100,100,-400]
+  material: # mirror
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.0
+    ks: 0.7
+    n: 64
+
+# Wall left
+# Bottom
+- type: triangle
+  vertex1: [100,140,-200]
+  vertex2: [100,100,-400]
+  vertex3: [100,140,-400]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,140,-200]
+  vertex2: [100,100,-400]
+  vertex3: [100,100,-200]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+# Top
+- type: triangle
+  vertex1: [100,300,-200]
+  vertex2: [100,140,-400]
+  vertex3: [100,300,-400]
+  material: # red
+    color: [1.0,0.5,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,300,-200]
+  vertex2: [100,140,-400]
+  vertex3: [100,140,-200]
+  material: # red
+    color: [1.0,0.5,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Wall right
+# Bottom
+- type: triangle
+  vertex1: [300,140,-400]
+  vertex2: [300,100,-100]
+  vertex3: [300,140,-100]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [300,140,-400]
+  vertex2: [300,100,-100]
+  vertex3: [300,100,-400]
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+# Top
+- type: triangle
+  vertex1: [300,300,-400]
+  vertex2: [300,140,-100]
+  vertex3: [300,300,-100]
+  material: # red
+    color: [1.0,0.5,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [300,300,-400]
+  vertex2: [300,140,-100]
+  vertex3: [300,140,-400]
+  material: # red
+    color: [1.0,0.5,0.5]
+    ka: 0.5
+    kd: 1.0
+    ks: 0.0
+    n: 64
+
+# Reflection sphere
+- type: sphere
+  position: [200,140,-300]
+  radius: 40
+  material: # red
+    color: [1.0,0.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.8
+    n: 64
