@@ -77,6 +77,16 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
 
 
     } else if (mode == "normal") {      // generate normal buffer
+
+        /*
+        if(material->bumpmapped){
+            Triple bumpmap = obj->mapTexture(ray, min_hit, hit);
+            float *dx, *dy;
+            material->bumpmap->derivativeAt(bumpmap.x, bumpmap.z, dx, dy);
+
+        }
+        */
+
         // Convert each coordinate of the normal vector (range [-1,1]) into a color value (range [0,1])
         double xColor = (N.x + 1) / 2;
         double yColor = (N.y + 1) / 2;
@@ -87,13 +97,12 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
     
     } else if (mode == "texCoords") {
         color = obj->mapTexture(ray, min_hit, hit);
-        //cout << endl;
 
     } else if (mode == "gooch") {   // render with Gooch model
 
         //calculate object color from material & texture
         Color objColor = material->color;
-        if(material->hasTexture){
+        if(material->textured){
             Triple textureMap = obj->mapTexture(ray, min_hit, hit);
 			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
         }
@@ -124,7 +133,7 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
 
         //calculate object color from material & texture
         Color objColor = material->color;
-        if(material->hasTexture){
+        if(material->textured){
             Triple textureMap = obj->mapTexture(ray, min_hit, hit);
 			objColor = objColor * material->texture->colorAt(textureMap.x, textureMap.z);
         }

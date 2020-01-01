@@ -16,8 +16,6 @@ Lights:
 Objects:
 #	environment
 - type: sphere
-  arctic: [0, 1, 0]
-  greenwich: [0, 1, 1]
   position: [200,-900,0]
   radius: 1000
   material:

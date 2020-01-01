@@ -85,12 +85,14 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
     } catch (exception e) {
         m->color = Color(1, 1, 1);
     }
+
+    // load texture
     try{
         string textureName = node["texture"];
         try{
             bool found = false;
             unsigned int i = 0;
-            //check if the  texture is already loaded
+            // check if the texture is already loaded
             while(!found && i < textureNames.size()){
                 found = (textureNames.at(i) == textureName);
                 i++;
@@ -107,13 +109,45 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
                 else
                     std::cerr << "ERROR: texture " << textureName << " missing or empty" << std::endl <<std::endl;
             }
-            m->hasTexture = (m->texture->size() > 0);
+            m->textured = (m->texture->size() > 0);
         } catch (exception e) {
             std::cerr << "ERROR: Failed to load texture " << textureName << std::endl <<std::endl;
         }
     } catch (exception e) {
-        //no texture to load
+        // no texture to load
     }
+
+    // load bump map
+    try{
+        string textureName = node["bumpmap"];
+        try{
+            bool found = false;
+            unsigned int i = 0;
+            // check if the bump map is already loaded
+            while(!found && i < textureNames.size()){
+                found = (textureNames.at(i) == textureName);
+                i++;
+            }
+            if(found){
+                m->bumpmap = textures.at(i-1);
+            }else{
+                std::cout << std::endl << "Loading bump map : " << textureName << std::endl;
+                textures.push_back(new Image(textureName.c_str()));
+                textureNames.push_back(textureName);
+                m->bumpmap = textures.back();
+                if(m->bumpmap->size() > 0)
+                    std::cout << "Bump map " << textureName << " loaded (" << m->bumpmap->width() << "x" << m->bumpmap->height() << ")" << std::endl << std::endl;
+                else
+                    std::cerr << "ERROR: Bump map " << textureName << " missing or empty" << std::endl <<std::endl;
+            }
+            m->bumpmapped = (m->bumpmap->size() > 0);
+        } catch (exception e) {
+            std::cerr << "ERROR: Failed to load texture " << textureName << std::endl <<std::endl;
+        }
+    } catch (exception e) {
+        // no texture to load
+    }
+
     node["ka"] >> m->ka;
     node["kd"] >> m->kd;
     node["ks"] >> m->ks;

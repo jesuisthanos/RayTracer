@@ -24,16 +24,19 @@ class Material
 public:
     Color color;        // base color
     Image *texture;     // texture data
-    bool hasTexture;    // true if the object has a texture
+    bool textured;    // true if the object has a texture
+    Image *bumpmap;     // bump map data
+    bool bumpmapped;    // true if the object has a bump map
     double ka;          // ambient intensity
     double kd;          // diffuse intensity
     double ks;          // specular intensity 
     double n;           // exponent for specular highlight size
-    double refract;           // refraction transparency
-    double eta;           // refraction index
+    double refract;     // refraction transparency
+    double eta;         // refraction index
 
     Material() {
-        hasTexture = false;
+        textured = false;
+        bumpmapped = false;
     }
 };
 
