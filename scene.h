@@ -55,6 +55,7 @@ public:
     void sortZBuffer();
     int partition(vector<Object*>&, int, int);
     string getMode() { return mode; }
+    GoochParameters getGoochParameters() { return goochParameters;}
     unsigned int getNumObjects() { return objects.size(); }
     unsigned int getNumLights() { return lights.size(); }
 };

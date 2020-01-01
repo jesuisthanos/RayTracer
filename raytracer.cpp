@@ -46,6 +46,11 @@ GoochParameters parseGooch(const YAML::Node& node){
     node["y"] >> g.y;
     node["alpha"] >> g.alpha;
     node["beta"] >> g.beta;
+    try {
+        g.outline = (node["outline"] == "true");
+    } catch (exception e) {
+        g.outline = false;
+    }
     return g;
 }
 
@@ -115,6 +120,7 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
         }
     } catch (exception e) {
         // no texture to load
+        m->textured = false;
     }
 
     // load bump map
@@ -146,6 +152,7 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
         }
     } catch (exception e) {
         // no texture to load
+        m->textured = false;
     }
 
     node["ka"] >> m->ka;
@@ -362,6 +369,59 @@ void Raytracer::renderToFile(const std::string& outputFilename)
     Image img(scene->getCamWidth(),scene->getCamHeight());
     cout << "Tracing..." << endl;
     scene->render(img);
+    if(scene->getMode() == "gooch" && scene->getGoochParameters().outline){
+        
+		// outline from zbuffer
+        Image zbuffer(scene->getCamWidth(),scene->getCamHeight());
+        scene->setMode("zbuffer");
+        scene->render(zbuffer);
+        for(int y = 0; y < scene->getCamHeight(); y++){
+            for(int x = 0; x < scene->getCamWidth(); x++){
+				Color diff = Triple(0, 0, 0);
+                if(y > 0){
+                    if(x > 0) diff += 1 * zbuffer.get_pixel(x-1, y-1);
+                    diff += 2 * zbuffer.get_pixel(x, y-1);
+                    if(x < scene->getCamWidth()-1) diff += 1 * zbuffer.get_pixel(x+1, y-1);
+                }
+                if(x > 0) diff += 2 * zbuffer.get_pixel(x-1, y);
+                diff -= 12 * zbuffer.get_pixel(x, y);
+                if(x < scene->getCamWidth()-1) diff += 2 * zbuffer.get_pixel(x+1, y);
+                if(y < scene->getCamHeight()-1){
+                    if(x > 0) diff += 1 * zbuffer.get_pixel(x-1, y+1);
+                    diff += 2 * zbuffer.get_pixel(x, y+1);
+                    if(x < scene->getCamWidth()-1) diff += 1 * zbuffer.get_pixel(x+1, y+1);
+                }
+				if(diff.x < -0.1 || diff.y < -0.1 || diff.z < -0.1 || diff.x > 0.1 || diff.y > 0.1 || diff.z > 0.1)
+					img.put_pixel(x, y, Triple(0, 0, 0));
+            }
+        }
+        
+		// outline from normal buffer
+		Image normalBuffer(scene->getCamWidth(), scene->getCamHeight());
+		scene->setMode("normal");
+		scene->render(normalBuffer);
+		for (int y = 0; y < scene->getCamHeight(); y++) {
+			for (int x = 0; x < scene->getCamWidth(); x++) {
+				Color diff = Triple(0, 0, 0);
+				if (y > 0) {
+					if (x > 0) diff += 1 * normalBuffer.get_pixel(x - 1, y - 1);
+					diff += 2 * normalBuffer.get_pixel(x, y - 1);
+					if (x < scene->getCamWidth() - 1) diff += 1 * normalBuffer.get_pixel(x + 1, y - 1);
+				}
+				if (x > 0) diff += 2 * normalBuffer.get_pixel(x - 1, y);
+				diff -= 12 * normalBuffer.get_pixel(x, y);
+				if (x < scene->getCamWidth() - 1) diff += 2 * normalBuffer.get_pixel(x + 1, y);
+				if (y < scene->getCamHeight() - 1) {
+					if (x > 0) diff += 1 * normalBuffer.get_pixel(x - 1, y + 1);
+					diff += 2 * normalBuffer.get_pixel(x, y + 1);
+					if (x < scene->getCamWidth() - 1) diff += 1 * normalBuffer.get_pixel(x + 1, y + 1);
+				}
+				if(diff.x < -0.1 || diff.y < -0.1 || diff.z < -0.1 || diff.x > 0.1 || diff.y > 0.1 || diff.z > 0.1)
+					img.put_pixel(x, y, Triple(0, 0, 0));
+			}
+		}
+        
+    }
     cout << "Writing image to " << outputFilename << "..." << endl;
     img.write_png(outputFilename.c_str());
     cout << "Done." << endl;

@@ -8,6 +8,11 @@ public:
 	double y;
 	double alpha;
 	double beta;
+	bool outline;
+
+	GoochParameters(){
+		outline = false;
+	}
 };
 
 #endif /* GOOCH_PARAMETERS_H */
