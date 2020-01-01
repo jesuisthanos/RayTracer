@@ -63,14 +63,13 @@ Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
 
     if (mode == "zbuffer") {    // Render zbuffer as grayscale image
         // Determine far & near boundaries of the buffer
-        int far = ((Sphere *)objects[0])->position.z - 100;
-        int near = ((Sphere *)objects[objects.size() - 1])->position.z - far;
+        int far = (objects[0])->getZPos() - 100;
+        int near = (objects[objects.size() - 1])->getZPos() - far;
 
         // sortZBuffer(objects, 0, objects.size()-1);
 
         // Get the depth value of the hit point
         double depthValue = (hit.z - far) / near * 1.0;
-        // depthValue = (((Sphere*)obj)->position.z - far) / near * 1.0; //TODO: uncomment to get "interesting error" zbuffer image
 
         // Convert the value to a grayscale color
         color = Triple(depthValue, depthValue, depthValue);
@@ -475,24 +474,24 @@ void Scene::sortObjects(vector<Object*>& objects, int low, int high) {
 }
 
 int Scene::partition(vector<Object*>& objects, int low, int high) {
-    int pivot = ((Sphere*)objects[high])->position.z;
+    int pivot = (objects[high])->getZPos();
     
     int i = (low - 1);
 
     for (int j = low; j <= high - 1; j++) {
-        if (((Sphere*) objects[j])->position.z < pivot) {
+        if ((objects[j])->getZPos() < pivot) {
             i++;
     //         std::cout << "-----------" << std::endl;
     // for (int i = 0; i < objects.size(); i++) {
-    //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    //     std::cout << (objects[i])->getZPos() << std::endl;
     // }
-            // cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
+            // cout << (objects[i])->getZPos() << " " << (objects[j])->getZPos() << std::endl;
             std::swap(objects[i], objects[j]);
             // std::cout << "-----------" << std::endl;
     // for (int i = 0; i < objects.size(); i++) {
-    //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    //     std::cout << (objects[i])->getZPos() << std::endl;
     // }
-    //         cout << ((Sphere*)objects[i])->position.z << " " << ((Sphere*)objects[j])->position.z << std::endl;
+    //         cout << (objects[i])->getZPos() << " " << (objects[j])->getZPos() << std::endl;
         }
     }
     std::swap(objects[i + 1], objects[high]);
@@ -503,7 +502,7 @@ void Scene::sortZBuffer() {
     sortObjects(objects, 0, objects.size() - 1);
     // std::cout << "-----------" << std::endl;
     // for (int i = 0; i < objects.size(); i++) {
-    //     std::cout << ((Sphere*)objects[i])->position.z << std::endl;
+    //     std::cout << (objects[i])->getZPos() << std::endl;
     // }
 }
 

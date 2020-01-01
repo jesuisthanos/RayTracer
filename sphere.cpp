@@ -78,6 +78,10 @@ Hit Sphere::intersect(const Ray &ray)
     return Hit(t,N);
 }
 
+double Sphere::getZPos(){
+    return position.z;
+}
+
 Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
     Vector longitude = arctic.cross(hit.N).cross(arctic).normalized();
     //Vector latitude = arctic.cross(hit.normalize();

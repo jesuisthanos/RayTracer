@@ -29,6 +29,8 @@ public:
     virtual ~Object() { }
 
     virtual Hit intersect(const Ray &ray) = 0;
+
+    virtual double getZPos() = 0;
     
     virtual Triple mapTexture(const Ray &ray, const Hit &hit, const Point &point) = 0;
 };

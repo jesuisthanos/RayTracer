@@ -33,6 +33,7 @@ public:
     }
 
     virtual Hit intersect(const Ray &ray);
+    virtual double getZPos();
     virtual Triple mapTexture(const Ray &ray, const Hit &hit, const Point &point);
 
     const Point position;

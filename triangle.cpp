@@ -72,6 +72,10 @@ Hit Triangle::intersect(const Ray& ray)
 	}
 }
 
+double Triangle::getZPos(){
+	return (vertex1.z + vertex2.z + vertex3.z)/3;
+}
+
 Triple Triangle::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
 	Vector AB = vertex2 - vertex1;
 	Vector AC = vertex3 - vertex1;
