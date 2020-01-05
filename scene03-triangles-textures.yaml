@@ -115,6 +115,8 @@ Objects:
 - type: sphere
   arctic: [0, 1, 0]
   greenwich: [0, 1, 1]
+  rotationVect: [0, 1, 0]
+  rotationAngle: 45
   position: [200,250,300]
   radius: 20
   material:

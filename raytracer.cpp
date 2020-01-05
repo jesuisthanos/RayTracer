@@ -196,11 +196,14 @@ Object* Raytracer::parseObject(const YAML::Node& node)
             node["rotationVect"] >> rotationVect;
             node["rotationAngle"] >> rotationAngle;
             sphere = new Sphere(pos, r, arctic, greenwich, rotationVect, rotationAngle);
+            sphere->rotateSystem();
         }
         catch (exception e) {
             sphere = new Sphere(pos, r, arctic, greenwich);
+            // sphere->rotateSystem();
         }
         //Sphere *sphere = new Sphere(pos,r,arctic,greenwich);
+        // sphere->rotateSystem();
         returnObject = sphere;
     }
 

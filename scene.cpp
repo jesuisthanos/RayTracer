@@ -18,6 +18,7 @@
 
 #include "scene.h"
 #include "material.h"
+#include <string>
 
 Color Scene::trace(const Ray &ray, int recursionDepth, double contribution)
 {
@@ -235,6 +236,14 @@ bool Scene::traceShadow(const Ray &ray, double lightDistance){
 
 void Scene::render(Image &img)
 {
+    //for (unsigned int i = 0; i < objects.size(); ++i) {
+    //    if (objects[i]->objType() == "sphere") {
+    //        ((Sphere*)objects[i])->rotateSystem();
+    //        // ((Sphere*)objects[i])->setArctic(Triple(0, 0, 0));
+    //        ((Sphere*)objects[i])->arctic.x = 0;
+    //    }
+    //}
+
     Triple offset(0.0, 0.0, 0.0);
     int n = superSampling;
     

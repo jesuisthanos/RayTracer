@@ -113,3 +113,42 @@ Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
 
     return Triple(dx + 0.5, 0, dy + 0.5);
 }
+
+void Sphere::rotateSystem() {
+    rotationVect.normalize();
+    double factor1 = -sin(rotationAngle * MATHPI / 180);
+    double factor2 = cos(rotationAngle * MATHPI / 180);
+    Vector a = arctic.dot(rotationVect) * rotationVect;
+    Vector a1 = arctic - a;
+    Vector a2 = a1.cross(rotationVect);
+    cout << a2 << endl;
+    if ((a2.x == 0.0) && (a2.y == 0.0) && (a2.z == 0.0)) {}
+    else {
+        a2.normalize();
+        Vector a3 = a1.normalized();
+        Vector a4 = factor1 * a2 + factor2 * a3;
+        Vector a5 = a4 * a1.length() + a;
+        arctic = a5;
+    }
+    
+
+    Vector b = greenwich.dot(rotationVect) * rotationVect;
+    Vector b1 = greenwich - b;
+    Vector b2 = b1.cross(rotationVect);
+    if ((b2.x == 0.0) && (b2.y == 0.0) && (b2.z == 0.0)) {}
+    else {
+        b2.normalize();
+        Vector b3 = b1.normalized();
+        Vector b4 = factor1 * b2 + factor2 * b3;
+        Vector b5 = b4 * b1.length() + b;
+        greenwich = b5;
+    }
+}
+
+string Sphere::objType() {
+    return "sphere";
+}
+
+void Sphere::setArctic(Vector newArc){
+    arctic = newArc;
+}

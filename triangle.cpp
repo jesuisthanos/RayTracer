@@ -89,3 +89,7 @@ Triple Triangle::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
 
 	return rightSide ? Triple(1.0 - horizontalOffset, 0, 1.0 - verticalOffset) : Triple(horizontalOffset, 0, verticalOffset);
 }
+
+string Triangle::objType() {
+	return "triangle";
+}

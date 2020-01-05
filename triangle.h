@@ -18,6 +18,7 @@ public:
 	virtual Hit intersect(const Ray& ray);
     virtual double getZPos();
     virtual Triple mapTexture(const Ray &ray, const Hit &hit, const Point &point);
+	virtual string objType();
 
 	const Point vertex1;
 	const Point vertex2;

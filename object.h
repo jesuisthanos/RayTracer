@@ -33,6 +33,8 @@ public:
     virtual double getZPos() = 0;
     
     virtual Triple mapTexture(const Ray &ray, const Hit &hit, const Point &point) = 0;
+
+    virtual string objType() = 0;
 };
 
 #endif /* end of include guard: OBJECT_H_AXKLE0OF */
