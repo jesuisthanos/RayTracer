@@ -94,10 +94,10 @@ Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
     double dummyLong = -longitude.dot(origin) / 4 + 0.25;
 
     if (left) {
-        dx = -dummyLong;
+        dx = dummyLong;
     }
     else {
-        dx = dummyLong;
+        dx = -dummyLong;
     }
 
     bool up = arctic.dot(hit.N) > 0;
