@@ -159,6 +159,30 @@ Objects:
     ks: 0.0
     n: 64
 
+# recursion back
+- type: triangle
+  vertex1: [300,300,1100]
+  vertex2: [100,300,1100]
+  vertex3: [300,100,1100]
+  rightSide: false
+  material: # recursive texture
+    texture: scene04-mirrorRoom.png
+    ka: 1.0
+    kd: 0.0
+    ks: 0.0
+    n: 64
+- type: triangle
+  vertex1: [100,100,1100]
+  vertex2: [300,100,1100]
+  vertex3: [100,300,1100]
+  rightSide: true
+  material: # recursive texture
+    texture: scene04-mirrorRoom.png
+    ka: 1.0
+    kd: 0.0
+    ks: 0.0
+    n: 64
+
 # Platform
 # Top
 - type: triangle
