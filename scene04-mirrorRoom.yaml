@@ -1,7 +1,11 @@
 ---
 #  scene04 - Scene with shadows and reflections
 
-Eye: [200,200,1000]  
+Camera:
+    eye: [200,200,1000]
+    center: [200,200,0]
+    up: [0,0.5,0]
+    viewSize: [800,800]
 
 Shadows: true
 MaxRecursionDepth: 10
@@ -15,23 +19,25 @@ Objects:
 # Floor
 - type: triangle
   vertex1: [100,100,0]
-  vertex2: [300,100,1100]
-  vertex3: [300,100,0]
-  material: # brown
-    color: [1.0,0.5,0.0]
+  vertex2: [300,100,0]
+  vertex3: [100,100,1100]
+  rightSide: false
+  material: # wood floor
+    texture: woodFloor.png
     ka: 0.2
     kd: 0.7
-    ks: 0.5
+    ks: 0.3
     n: 64
 - type: triangle
-  vertex1: [100,100,0]
-  vertex2: [300,100,1100]
-  vertex3: [100,100,1100]
-  material: # brown
-    color: [1.0,0.5,0.0]
+  vertex1: [300,100,1100]
+  vertex2: [100,100,1100]
+  vertex3: [300,100,0]
+  rightSide: true
+  material: # wood floor
+    texture: woodFloor.png
     ka: 0.2
     kd: 0.7
-    ks: 0.5
+    ks: 0.3
     n: 64
 
 # Ceiling
@@ -80,20 +86,24 @@ Objects:
     n: 64
 # Top
 - type: triangle
-  vertex1: [100,300,1100]
-  vertex2: [100,140,0]
-  vertex3: [100,300,0]
+  vertex1: [100,300,0]
+  vertex2: [100,300,1100]
+  vertex3: [100,140,0]
+  rightSide: false
   material: # light blue
+    texture: wallStripes.png
     color: [0.5,0.7,1.0]
     ka: 0.5
     kd: 1.0
     ks: 0.0
     n: 64
 - type: triangle
-  vertex1: [100,300,1100]
+  vertex1: [100,140,1100]
   vertex2: [100,140,0]
-  vertex3: [100,140,1100]
+  vertex3: [100,300,1100]
+  rightSide: true
   material: # light blue
+    texture: wallStripes.png
     color: [0.5,0.7,1.0]
     ka: 0.5
     kd: 1.0
@@ -126,19 +136,23 @@ Objects:
 # Top
 - type: triangle
   vertex1: [300,300,-100]
-  vertex2: [300,140,1100]
-  vertex3: [300,300,1100]
+  vertex2: [300,300,1100]
+  vertex3: [300,140,-100]
+  rightSide: false
   material: # light blue
+    texture: wallStripes.png
     color: [0.5,0.7,1.0]
     ka: 0.5
     kd: 1.0
     ks: 0.0
     n: 64
 - type: triangle
-  vertex1: [300,300,-100]
-  vertex2: [300,140,1100]
-  vertex3: [300,140,-100]
+  vertex1: [300,140,1100]
+  vertex2: [300,140,-100]
+  vertex3: [300,300,1100]
+  rightSide: true
   material: # light blue
+    texture: wallStripes.png
     color: [0.5,0.7,1.0]
     ka: 0.5
     kd: 1.0
@@ -278,23 +292,25 @@ Objects:
 # Floor
 - type: triangle
   vertex1: [-200,100,-200]
-  vertex2: [300,100,0]
+  vertex2: [-200,100,0]
   vertex3: [300,100,-200]
-  material: # brown
-    color: [1.0,0.5,0.0]
+  rightSide: false
+  material: # wood floor
+    texture: woodFloor.png
     ka: 0.2
     kd: 0.7
-    ks: 0.5
+    ks: 0.3
     n: 64
 - type: triangle
-  vertex1: [-200,100,-200]
-  vertex2: [300,100,0]
+  vertex1: [300,100,0]
+  vertex2: [300,100,-200]
   vertex3: [-200,100,0]
-  material: # brown
-    color: [1.0,0.5,0.0]
+  rightSide: true
+  material: # wood floor
+    texture: woodFloor.png
     ka: 0.2
     kd: 0.7
-    ks: 0.5
+    ks: 0.3
     n: 64
 
 # Ceiling
@@ -344,19 +360,23 @@ Objects:
 # Top
 - type: triangle
   vertex1: [100,300,0]
-  vertex2: [-200,140,0]
-  vertex3: [-200,300,0]
+  vertex2: [-200,300,0]
+  vertex3: [100,140,0]
+  rightSide: false
   material: # green
+    texture: wallStripes.png
     color: [0.5,1.0,0.5]
     ka: 0.5
     kd: 1.0
     ks: 0.0
     n: 64
 - type: triangle
-  vertex1: [100,300,0]
-  vertex2: [-200,140,0]
-  vertex3: [100,140,0]
+  vertex1: [-200,140,0]
+  vertex2: [100,140,0]
+  vertex3: [-200,300,0]
+  rightSide: true
   material: # green
+    texture: wallStripes.png
     color: [0.5,1.0,0.5]
     ka: 0.5
     kd: 1.0
@@ -388,19 +408,23 @@ Objects:
 # Top
 - type: triangle
   vertex1: [-200,300,-200]
-  vertex2: [100,140,-200]
-  vertex3: [100,300,-200]
+  vertex2: [100,300,-200]
+  vertex3: [-200,140,-200]
+  rightSide: false
   material: # green
+    texture: wallStripes.png
     color: [0.5,1.0,0.5]
     ka: 0.5
     kd: 1.0
     ks: 0.0
     n: 64
 - type: triangle
-  vertex1: [-200,300,-200]
-  vertex2: [100,140,-200]
-  vertex3: [-200,140,-200]
+  vertex1: [100,140,-200]
+  vertex2: [-200,140,-200]
+  vertex3: [100,300,-200]
+  rightSide: true
   material: # green
+    texture: wallStripes.png
     color: [0.5,1.0,0.5]
     ka: 0.5
     kd: 1.0
@@ -512,23 +536,25 @@ Objects:
 # Floor
 - type: triangle
   vertex1: [100,100,-400]
-  vertex2: [300,100,-200]
-  vertex3: [300,100,-400]
-  material: # brown
-    color: [1.0,0.5,0.0]
+  vertex2: [300,100,-400]
+  vertex3: [100,100,-200]
+  rightSide: false
+  material: # wood floor
+    texture: woodFloor.png
     ka: 0.2
     kd: 0.7
-    ks: 0.5
+    ks: 0.3
     n: 64
 - type: triangle
-  vertex1: [100,100,-400]
-  vertex2: [300,100,-200]
-  vertex3: [100,100,-200]
-  material: # brown
-    color: [1.0,0.5,0.0]
+  vertex1: [300,100,-200]
+  vertex2: [100,100,-200]
+  vertex3: [300,100,-400]
+  rightSide: true
+  material: # wood floor
+    texture: woodFloor.png
     ka: 0.2
     kd: 0.7
-    ks: 0.5
+    ks: 0.3
     n: 64
 
 # Ceiling
@@ -601,19 +627,23 @@ Objects:
 # Top
 - type: triangle
   vertex1: [100,300,-200]
-  vertex2: [100,140,-400]
-  vertex3: [100,300,-400]
+  vertex2: [100,300,-400]
+  vertex3: [100,140,-200]
+  rightSide: false
   material: # red
+    texture: wallStripes.png
     color: [1.0,0.5,0.5]
     ka: 0.5
     kd: 1.0
     ks: 0.0
     n: 64
 - type: triangle
-  vertex1: [100,300,-200]
-  vertex2: [100,140,-400]
-  vertex3: [100,140,-200]
+  vertex1: [100,140,-400]
+  vertex2: [100,140,-200]
+  vertex3: [100,300,-400]
+  rightSide: true
   material: # red
+    texture: wallStripes.png
     color: [1.0,0.5,0.5]
     ka: 0.5
     kd: 1.0
@@ -645,19 +675,23 @@ Objects:
 # Top
 - type: triangle
   vertex1: [300,300,-400]
-  vertex2: [300,140,-100]
-  vertex3: [300,300,-100]
+  vertex2: [300,300,-100]
+  vertex3: [300,140,-400]
+  rightSide: false
   material: # red
+    texture: wallStripes.png
     color: [1.0,0.5,0.5]
     ka: 0.5
     kd: 1.0
     ks: 0.0
     n: 64
 - type: triangle
-  vertex1: [300,300,-400]
-  vertex2: [300,140,-100]
-  vertex3: [300,140,-400]
+  vertex1: [300,140,-100]
+  vertex2: [300,140,-400]
+  vertex3: [300,300,-100]
+  rightSide: true
   material: # red
+    texture: wallStripes.png
     color: [1.0,0.5,0.5]
     ka: 0.5
     kd: 1.0
