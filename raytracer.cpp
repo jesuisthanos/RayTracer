@@ -148,11 +148,11 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
             }
             m->bumpmapped = (m->bumpmap->size() > 0);
         } catch (exception e) {
-            std::cerr << "ERROR: Failed to load texture " << textureName << std::endl <<std::endl;
+            std::cerr << "ERROR: Failed to load bump map " << textureName << std::endl <<std::endl;
         }
     } catch (exception e) {
         // no texture to load
-        m->textured = false;
+        m->bumpmapped = false;
     }
 
     node["ka"] >> m->ka;
