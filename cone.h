@@ -9,13 +9,9 @@ public:
 	Point base;
 	Point top;
 	double radius;
-	Cone(Point v1, Point v2, Point v3, bool rightSide) : vertex1(v1), vertex2(v2), vertex3(v3), rightSide(rightSide) {
-		Vector norm = (vertex1 - vertex2).cross(vertex1 - vertex3);
-		normal = norm / norm.length();
+	Cone(Point base, Point top, double radius) : base(base), top(top), radius(radius) {
+		
 	}
-	
-	Vector getNormal();
-	void setNormal(Vector newNorm);
 
 	virtual Hit intersect(const Ray& ray);
     virtual double getZPos();
