@@ -20,6 +20,7 @@
 #include "object.h"
 #include "sphere.h"
 #include "triangle.h"
+#include "cone.h"
 #include "material.h"
 #include "image.h"
 #include "light.h"
@@ -219,8 +220,24 @@ Object* Raytracer::parseObject(const YAML::Node& node)
             rightSide = false;
         }
 		Triangle *t = new Triangle(v1, v2, v3, rightSide);
+
 		returnObject = t;
 	}
+
+    if (objectType == "cone"){
+        Point base, top;
+        double radius;
+        node["base"] >> base;
+        node["top"] >> top;
+        node["radius"] >> radius;
+        Cone* c = new Cone(base, top, radius);
+
+        std::cout << "Cone" << std::endl;
+        std::cout << c->base.x << " " << c->base.y << " " << c->base.z << endl;
+        std::cout << c->top.x << " " << c->top.y << " " << c->top.z << endl;
+        std::cout << c->radius << endl;
+        returnObject = c;
+    }
 
     if (returnObject) {
         // read the material and attach to object
