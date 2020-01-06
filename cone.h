@@ -1,5 +1,5 @@
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
+#ifndef CONE_H
+#define CONE_H
 
 #include "object.h"
 
@@ -21,4 +21,4 @@ public:
 	double radius;
 };
 
-#endif /* TRIANGLE_H */
+#endif /* CONE_H */
