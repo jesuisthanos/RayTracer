@@ -6,9 +6,6 @@
 class Cone : public Object
 {
 public:
-	Point base;
-	Point top;
-	double radius;
 	Cone(Point base, Point top, double radius) : base(base), top(top), radius(radius) {
 		
 	}
@@ -18,11 +15,10 @@ public:
     virtual Triple mapTexture(const Ray &ray, const Hit &hit, const Point &point);
 	virtual string objType();
 
-	const Point vertex1;
-	const Point vertex2;
-	const Point vertex3;
 
-	const bool rightSide;
+	Point base;
+	Point top;
+	double radius;
 };
 
 #endif /* TRIANGLE_H */

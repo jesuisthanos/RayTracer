@@ -18,6 +18,8 @@
 Hit Cone::intersect(const Ray& ray)
 {
 	return Hit::NO_HIT();
+
+
 }
 
 double Cone::getZPos(){
