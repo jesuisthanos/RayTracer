@@ -1,6 +1,7 @@
 .vscode/*
 .vs/*
 Debug/*
+Release/*
 *.o
 scene*.png
 make.dep
