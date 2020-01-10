@@ -22,6 +22,7 @@
 #include "triangle.h"
 #include "cone.h"
 #include "material.h"
+#include "glm.h"
 #include "image.h"
 #include "light.h"
 #include "yaml/yaml.h"
@@ -41,7 +42,7 @@ void operator >> (const YAML::Node& node, Triple& t)
     node[2] >> t.z;
 }
 
-GoochParameters parseGooch(const YAML::Node& node){
+GoochParameters Raytracer::parseGooch(const YAML::Node& node){
     GoochParameters g;
     node["b"] >> g.b;
     node["y"] >> g.y;
@@ -55,7 +56,7 @@ GoochParameters parseGooch(const YAML::Node& node){
     return g;
 }
 
-Camera parseCamera(const YAML::Node& node)
+Camera Raytracer::parseCamera(const YAML::Node& node)
 {
     Camera c;
     node["eye"] >> c.eye;
@@ -74,7 +75,7 @@ Camera parseCamera(const YAML::Node& node)
     return c;
 }
 
-Triple parseTriple(const YAML::Node& node)
+Triple Raytracer::parseTriple(const YAML::Node& node)
 {
     Triple t;
     node[0] >> t.x;
@@ -247,6 +248,39 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     return returnObject;
 }
 
+bool Raytracer::parseModel(const YAML::Node& node){
+    string file;
+    node["file"] >> file;
+    std::cout << std::endl << "Loading model : " << file << std::endl;
+    GLMmodel *model = glmReadOBJ((char*)file.c_str());
+    for(int i = 0; i < model->numtriangles; i++){
+        float v1x = model->vertices[3*model->triangles[i].vindices[0]];
+        float v1y = model->vertices[3*model->triangles[i].vindices[0] + 1];
+        float v1z = model->vertices[3*model->triangles[i].vindices[0] + 2];
+        float v2x = model->vertices[3*model->triangles[i].vindices[1]];
+        float v2y = model->vertices[3*model->triangles[i].vindices[1] + 1];
+        float v2z = model->vertices[3*model->triangles[i].vindices[1] + 2];
+        float v3x = model->vertices[3*model->triangles[i].vindices[2]];
+        float v3y = model->vertices[3*model->triangles[i].vindices[2] + 1];
+        float v3z = model->vertices[3*model->triangles[i].vindices[2] + 2];
+
+        Point v1 = Triple(v1x*50 + 175, v1y*50 + 100, v1z*50 + 200);
+        Point v2 = Triple(v2x*50 + 175, v2y*50 + 100, v2z*50 + 200);
+        Point v3 = Triple(v3x*50 + 175, v3y*50 + 100, v3z*50 + 200);
+        
+        std::cout << v1.x << " " << v1.y << " " << v1.z << "; ";
+        std::cout << v2.x << " " << v2.y << " " << v2.z << "; ";
+        std::cout << v3.x << " " << v3.y << " " << v3.z << std::endl;
+
+        Triangle *t = new Triangle(v1, v2, v3, false);
+        t->material = new Material();
+        t->material->color = Color(1, 1, 1);
+        t->material->kd = 1.0;
+        scene->addObject(t);
+    }
+    return true;
+}
+
 Light* Raytracer::parseLight(const YAML::Node& node)
 {
     Point position;
@@ -356,10 +390,29 @@ bool Raytracer::readScene(const std::string& inputFilename)
                 }
             }
 
+            // Read and parse the scene models
+            try{
+                const YAML::Node& sceneModels = doc["Models"];
+                if (sceneModels.GetType() != YAML::CT_SEQUENCE) {
+                    cerr << "Error: expected a sequence of Models." << endl;
+                    return false;
+                }
+                for(YAML::Iterator it=sceneModels.begin();it!=sceneModels.end();++it) {
+                    bool obj = parseModel(*it);
+                    // Only add object if it is recognized
+                    if (obj) {
+                        //scene->addObject(obj);
+                    } else {
+                        cerr << "Warning: found object of unknown type, ignored." << endl;
+                    }
+                }
+            }catch (exception e){
+                // No models
+            }
 
             // Read and parse light definitions
             const YAML::Node& sceneLights = doc["Lights"];
-            if (sceneObjects.GetType() != YAML::CT_SEQUENCE) {
+            if (sceneLights.GetType() != YAML::CT_SEQUENCE) {
                 cerr << "Error: expected a sequence of lights." << endl;
                 return false;
             }

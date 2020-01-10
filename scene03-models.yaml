@@ -1,0 +1,58 @@
+---
+#  scene03 - testing triangles
+
+Shadows: false
+
+Eye: [200,200,1000]
+
+Lights:
+- position: [500,400,400]
+  color: [1.0,1.0,1.0]
+
+Objects:
+#	environment
+- type: sphere
+  position: [200,-900,0]
+  radius: 1000
+  material: # yellow
+    color: [1.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.9
+    ks: 0.9
+    n: 64
+#	triangle 1
+- type: triangle
+  vertex1: [150,100,100]
+  vertex2: [200,250,100]
+  vertex3: [250,100,100]
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+#	triangle 2
+- type: triangle
+  vertex1: [100,100,250]
+  vertex2: [100,250,300]
+  vertex3: [100,100,350]
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+#	triangle 3
+- type: triangle
+  vertex1: [300,100,250]
+  vertex2: [300,250,300]
+  vertex3: [300,100,350]
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
+
+Models:
+- file: cube.obj

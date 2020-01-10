@@ -117,6 +117,9 @@
     <ClCompile Include="cone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="glm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="image.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

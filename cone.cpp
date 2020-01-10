@@ -34,7 +34,7 @@ Hit Cone::intersect(const Ray& ray)
 	double _DF = (F - D).length();
 
 	double _BC = BC.length();
-	double _BD = (top - D).length();
+	_BD = (top - D).length();
 
 	double xp = radius * _BD / _BC;
 	if (_DF <= xp) {

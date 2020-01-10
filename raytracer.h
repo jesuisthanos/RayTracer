@@ -29,9 +29,13 @@ private:
     std::vector<string> textureNames;
 
     // Couple of private functions for parsing YAML nodes
+    GoochParameters parseGooch(const YAML::Node& node);
+    Camera parseCamera(const YAML::Node& node);
+    Triple parseTriple(const YAML::Node& node);
     Material* parseMaterial(const YAML::Node& node);
     Object* parseObject(const YAML::Node& node);
     Light* parseLight(const YAML::Node& node);
+    bool parseModel(const YAML::Node& node);
 
 public:
     Raytracer() { }
