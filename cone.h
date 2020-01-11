@@ -6,7 +6,7 @@
 class Cone : public Object
 {
 public:
-	Cone(Point base, Point top, double radius) : base(base), top(top), radius(radius) {
+	Cone(Point base, Point top, double radius, Vector org) : base(base), top(top), radius(radius), org(org) {
 		
 	}
 
@@ -19,6 +19,7 @@ public:
 	Point base;
 	Point top;
 	double radius;
+	Vector org;
 };
 
 #endif /* CONE_H */

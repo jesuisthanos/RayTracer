@@ -231,7 +231,14 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["base"] >> base;
         node["top"] >> top;
         node["radius"] >> radius;
-        Cone* c = new Cone(base, top, radius);
+        Vector org;
+        try {
+            org = node["org"];
+        }
+        catch (exception e) {
+            org = Vector(0, 0, 1);
+        }
+        Cone* c = new Cone(base, top, radius, org);
 
         std::cout << "Cone" << std::endl;
         std::cout << c->base.x << " " << c->base.y << " " << c->base.z << endl;

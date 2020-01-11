@@ -57,9 +57,10 @@ Objects:
 - type: cone
   base: [200,100,300]
   top: [200,250,300]
+  org: [-1, 0, 0]
   radius: 50
   material: # green
-    color: [1.0,0.0,0.0]
+    texture: vader.png
     ka: 0.2
     kd: 0.5
     ks: 0.3
