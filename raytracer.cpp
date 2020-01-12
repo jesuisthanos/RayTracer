@@ -21,6 +21,7 @@
 #include "sphere.h"
 #include "triangle.h"
 #include "cone.h"
+#include "circle.h"
 #include "material.h"
 #include "glm.h"
 #include "image.h"
@@ -244,6 +245,22 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         std::cout << c->base.x << " " << c->base.y << " " << c->base.z << endl;
         std::cout << c->top.x << " " << c->top.y << " " << c->top.z << endl;
         std::cout << c->radius << endl;
+        returnObject = c;
+    }
+
+    if (objectType == "circle") {
+        Point center;
+        double radius;
+        Vector norm;
+        node["center"] >> center;
+        node["radius"] >> radius;
+        node["norm"] >> norm;
+        Circle* c = new Circle(center, radius, norm);
+
+        std::cout << "Circle" << std::endl;
+        std::cout << c->center.x << " " << c->center.y << " " << c->center.z << endl;
+        std::cout << c->radius << endl;
+        std::cout << c->norm.x << " " << c->norm.y << " " << c->norm.z << endl;
         returnObject = c;
     }
 

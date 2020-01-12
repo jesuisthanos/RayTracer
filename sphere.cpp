@@ -93,7 +93,7 @@ Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
     bool left = longtitude.cross(origin).dot(arctic) > 0;
     double dummyLong = longtitude.dot(origin);
 
-    if (left) {
+    /*if (left) {
         dx = (dummyLong + 1) / 4;
     }
     else {
@@ -104,7 +104,26 @@ Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
 
     double dummyLat = arctic.dot(hit.N);
 
-    dy = 1 - (dummyLat + 1) / 2;
+    dy = 1 - (dummyLat + 1) / 2;*/
+    Vector N = hit.N;
+
+    rotationVect.normalize();
+    double factor1 = -sin(rotationAngle * MATHPI / 180);
+    double factor2 = cos(rotationAngle * MATHPI / 180);
+    Vector a = N.dot(rotationVect) * rotationVect;
+    Vector a1 = N - a;
+    Vector a2 = a1.cross(rotationVect);
+    if ((a2.x == 0.0) && (a2.y == 0.0) && (a2.z == 0.0)) {}
+    else {
+        a2.normalize();
+        Vector a3 = a1.normalized();
+        Vector a4 = factor1 * a2 + factor2 * a3;
+        Vector a5 = a4 * a1.length() + a;
+        N = a5;
+    }
+
+    dx = 0.5 - atan2(N.z, N.x) / (2 * 3.1415927);
+    dy = 0.5 - asin(N.y) / 3.1415927;
 
     return Triple(dx, 0, dy);
 }
