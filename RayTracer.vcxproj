@@ -96,6 +96,7 @@
     <ClCompile Include="raytracer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sphere.cpp" />
+    <ClCompile Include="circle.cpp" />
     <ClCompile Include="triangle.cpp" />
     <ClCompile Include="triple.cpp" />
     <ClCompile Include="yaml\aliascontent.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="raytracer.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sphere.h" />
+    <ClInclude Include="circle.h" />
     <ClInclude Include="triangle.h" />
     <ClInclude Include="triple.h" />
     <ClInclude Include="yaml\aliascontent.h" />
