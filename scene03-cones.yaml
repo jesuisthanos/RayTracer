@@ -63,7 +63,7 @@ Objects:
   top: [200,250,100]
   org: [-1, 0, 1]
   radius: 50
-  material: # green
+  material:
     texture: vader.png
     ka: 0.2
     kd: 0.5

@@ -35,7 +35,7 @@ private:
     Material* parseMaterial(const YAML::Node& node);
     Object* parseObject(const YAML::Node& node);
     Light* parseLight(const YAML::Node& node);
-    bool parseModel(const YAML::Node& node);
+    void parseModel(const YAML::Node& node);
 
 public:
     Raytracer() { }
