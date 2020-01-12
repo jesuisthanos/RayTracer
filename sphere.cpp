@@ -90,28 +90,28 @@ Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
     double dx(0.0);
     double dy(0.0);
 
-    bool left = longitude.cross(origin).dot(arctic) < 0;
-    double dummyLong = -longitude.dot(origin) / 4 + 0.25;
+    bool left = longitude.cross(origin).dot(arctic) > 0;
+    double dummyLong = longitude.dot(origin);
 
-    if (left) {
-        dx = dummyLong;
+    if (!left) {
+        dx = (dummyLong + 1) / 4 + 0.5;
     }
     else {
-        dx = -dummyLong;
+        dx = (dummyLong * (-1) + 1) / 4 + 0.5;
     }
 
     bool up = arctic.dot(hit.N) > 0;
 
-    double dummyLat = (1 - hit.N.dot(longitude)) / 2;
+    double dummyLat = hit.N.dot(longitude);
 
-    if (up) {
-        dy = -dummyLat;
+    if (!up) {
+        dy = (1 - dummyLat) / 2;
     }
     else {
-        dy = dummyLat;
+        dy = (dummyLat * (-1) + 1) / 2;
     }
 
-    return Triple(dx + 0.5, 0, dy + 0.5);
+    return Triple(dx, 0, dy);
 }
 
 void Sphere::rotateSystem() {

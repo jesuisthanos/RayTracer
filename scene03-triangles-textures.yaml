@@ -5,9 +5,9 @@ Shadows: false
 
 Camera:
     eye: [200,200,1000]
-    center: [200,200,0]
+    center: [200,200,-1000]
     up: [0,0.5,0]
-    viewSize: [800,800]
+    viewSize: [2000,2000]
 
 Lights:
 - position: [500,400,400]
