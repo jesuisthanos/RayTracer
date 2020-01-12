@@ -277,6 +277,24 @@ void Raytracer::parseModel(const YAML::Node& node){
     node["file"] >> file;
     std::cout << std::endl << "Loading model : " << file << std::endl;
     GLMmodel *model = glmReadOBJ((char*)file.c_str());
+    // position of the object
+    Point pos = Triple(0, 0, 0);
+    try{
+        // position from yaml file
+        node["position"] >> pos;
+    }catch(exception e){
+        // origin
+    }
+    // position from model file
+    pos += Triple(model->position[0], model->position[1], model->position[2]);
+    // scale of the object
+    Triple scale = Triple(1, 1, 1);
+    try{
+        // scale from yaml file
+        node["scale"] >> scale;
+    }catch(exception e){
+        // original scale
+    }
     GLMtriangle *triangle;
     GLMmaterial *material;
     // Go through groups first
@@ -322,9 +340,9 @@ void Raytracer::parseModel(const YAML::Node& node){
             float v3y = model->vertices[3*triangle->vindices[2] + 1];
             float v3z = model->vertices[3*triangle->vindices[2] + 2];
 
-            Point v1 = Triple(v1x*50 + 175, v1y*50 + 100, v1z*50 + 200);
-            Point v2 = Triple(v2x*50 + 175, v2y*50 + 100, v2z*50 + 200);
-            Point v3 = Triple(v3x*50 + 175, v3y*50 + 100, v3z*50 + 200);
+            Point v1 = Triple(v1x*scale.x + pos.x, v1y*scale.y + pos.y, v1z*scale.z + pos.z);
+            Point v2 = Triple(v2x*scale.x + pos.x, v2y*scale.y + pos.y, v2z*scale.z + pos.z);
+            Point v3 = Triple(v3x*scale.x + pos.x, v3y*scale.y + pos.y, v3z*scale.z + pos.z);
             
             std::cout << v1.x << " " << v1.y << " " << v1.z << "; ";
             std::cout << v2.x << " " << v2.y << " " << v2.z << "; ";

@@ -60,6 +60,8 @@ Objects:
 
 Models:
 - file: cube.obj
+  position: [175,100,200]
+  scale: [50,50,50]
   material: # red
     color: [1.0,0.0,0.0]
     ka: 0.2
