@@ -11,8 +11,6 @@
 #include <iostream>
 #include <math.h>
 
-#define N 2
-
 /************************** Cone **********************************/
 
 Hit Cone::intersect(const Ray& ray)
@@ -96,16 +94,35 @@ Triple Cone::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
 	double dy = CP.length() / max_len;
 	double dx = x.dot(org);
 
-	if (x.cross(org).dot(CB) > 0) { //right	
-		dx *= -1;
-		dx += 1;
-		dx /= 4;		
+	//if (x.cross(org).dot(CB) > 0) { //right	
+	//	dx *= -1;
+	//	dx += 1;
+	//	dx /= 4;		
+	//}
+	//else { // left
+	//	dx += 1;
+	//	dx /= 4;
+	//	dx += 0.5;
+	//}
+	Vector norm = hit.N;
+
+	CB.normalize();
+	double factor2 = org.normalized().dot(Vector(-1, 0, 0));
+	//cout << factor2 << endl;
+	double factor1 = -sqrt(1 - factor2 * factor2);
+	Vector a = norm.dot(CB) * CB;
+	Vector a1 = norm - a;
+	Vector a2 = a1.cross(CB);
+	if ((a2.x == 0.0) && (a2.y == 0.0) && (a2.z == 0.0)) {}
+	else {
+		a2.normalize();
+		Vector a3 = a1.normalized();
+		Vector a4 = factor1 * a2 + factor2 * a3;
+		Vector a5 = a4 * a1.length() + a;
+		norm = a5;
 	}
-	else { // left
-		dx += 1;
-		dx /= 4;
-		dx += 0.5;
-	}
+
+	dx = 0.5 - atan2(norm.z, norm.x) / (2 * 3.1415927);
 
 	return Triple(dx, 0, dy);
 	/*return Triple(0, 0, 0);*/
