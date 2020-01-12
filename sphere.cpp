@@ -83,17 +83,17 @@ double Sphere::getZPos(){
 }
 
 Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
-    Vector longitude = arctic.cross(hit.N).cross(arctic).normalized();
+    Vector longtitude = arctic.cross(hit.N).cross(arctic).normalized();
     //Vector latitude = arctic.cross(hit.normalize();
     Vector origin = arctic.cross(greenwich).cross(arctic).normalized();
 
     double dx(0.0);
     double dy(0.0);
 
-    bool left = longitude.cross(origin).dot(arctic) > 0;
-    double dummyLong = longitude.dot(origin);
+    bool left = longtitude.cross(origin).dot(arctic) > 0;
+    double dummyLong = longtitude.dot(origin);
 
-    if (!left) {
+    if (left) {
         dx = (dummyLong + 1) / 4 + 0.5;
     }
     else {
@@ -102,13 +102,13 @@ Triple Sphere::mapTexture(const Ray &ray, const Hit &hit, const Point &point){
 
     bool up = arctic.dot(hit.N) > 0;
 
-    double dummyLat = hit.N.dot(longitude);
+    double dummyLat = hit.N.dot(longtitude);
 
-    if (!up) {
-        dy = (1 - dummyLat) / 2;
+    if (up) {
+        dy = (2 - dummyLat) / 2;
     }
     else {
-        dy = (dummyLat * (-1) + 1) / 2;
+        dy = dummyLat / 2;
     }
 
     return Triple(dx, 0, dy);
