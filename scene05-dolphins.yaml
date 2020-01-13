@@ -1,0 +1,40 @@
+---
+#  scene05 - testing models
+
+Shadows: true
+MaxRecursionDepth: 10
+SuperSampling:
+  factor: 2
+
+Camera:
+    eye: [200,200,1000]
+    center: [200,200,0]
+    up: [0,0.5,0]
+    viewSize: [800,800]
+
+Lights:
+- position: [500,400,400]
+  color: [1.0,1.0,1.0]
+
+Objects:
+#	environment
+- type: sphere
+  position: [200,-900,0]
+  radius: 1000
+  material: # blue
+    color: [0.25,0.25,1.0]
+    ka: 0.2
+    kd: 0.9
+    ks: 0.9
+    n: 64
+
+Models:
+- file: dolphins.obj
+  position: [200,250,0]
+  scale: [0.3,0.3,0.3]
+  material: # red
+    color: [1.0,0.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64

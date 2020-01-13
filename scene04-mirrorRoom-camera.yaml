@@ -547,6 +547,18 @@ Objects:
     kd: 0.0
     ks: 0.7
     n: 64
+# cone
+- type: cone
+  base: [100,100,-50]
+  top: [100,200,-50]
+  org: [-1, 0, 1]
+  radius: 25
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.8
+    n: 64
 
 
 

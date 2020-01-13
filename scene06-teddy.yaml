@@ -1,0 +1,53 @@
+---
+#  scene06 - testing models
+
+Shadows: true
+MaxRecursionDepth: 10
+SuperSampling:
+  factor: 2
+
+Camera:
+    eye: [200,200,1000]
+    center: [200,200,0]
+    up: [0,1,0]
+    viewSize: [800,800]
+
+Lights:
+- position: [400,400,1100]
+  color: [1.0,1.0,1.0]
+
+Objects:
+#	environment
+- type: triangle
+  vertex1: [0,100,0]
+  vertex2: [400,100,0]
+  vertex3: [0,100,1100]
+  rightSide: false
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 64
+- type: triangle
+  vertex1: [400,100,1100]
+  vertex2: [0,100,1100]
+  vertex3: [400,100,0]
+  rightSide: true
+  material: # white
+    color: [1.0,1.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 64
+
+Models:
+- file: teddy.obj
+  position: [250,140,300]
+  scale: [2,2,2]
+  material: # red
+    color: [1.0,0.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
