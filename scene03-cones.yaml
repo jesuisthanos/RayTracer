@@ -5,9 +5,9 @@ Shadows: false
 
 Camera:
     eye: [200,200,1000]
-    center: [200,200,-1000]
+    center: [200,200,600]
     up: [0,0.5,0]
-    viewSize: [1200,1200]
+    viewSize: [400,400]
 
 Lights:
 - position: [500,400,400]
@@ -59,7 +59,7 @@ Objects:
     n: 64
 # cone
 - type: cone
-  base: [200,100,100]
+  base: [200,100,400]
   top: [200,250,100]
   org: [-1, 0, 1]
   radius: 50
@@ -71,13 +71,13 @@ Objects:
     n: 64
 
 # circle
-# - type: circle
-#   center: [200,200,600]
-#   top: [0,150,-300]
-#   norm: [-1, 0, 0]
-#   radius: 50
-#   material: # green
-#     ka: 0.2
-#     kd: 0.5
-#     ks: 0.3
-#     n: 64
+- type: circle
+  center: [200,100,400]
+  norm: [0, 150, 300]
+  radius: 50
+  material: # green
+    color: [0.0,1.0,0.0]
+    ka: 0.2
+    kd: 0.5
+    ks: 0.3
+    n: 64
