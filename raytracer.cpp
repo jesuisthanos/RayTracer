@@ -313,7 +313,7 @@ void Raytracer::parseModel(const YAML::Node& node){
             } catch (exception e) {
                 m->color = Color(1, 1, 1);
             }
-            std::cout << "Material: " << material->name << " ka: " << m->ka << " kd: " << m->kd << " ks: " << m->ks << " m: " << m->n << std::endl;
+            //std::cout << "Material: " << material->name << " ka: " << m->ka << " kd: " << m->kd << " ks: " << m->ks << " m: " << m->n << std::endl;
         } else {
             try{
                 m = parseMaterial(node["material"]);
@@ -344,9 +344,11 @@ void Raytracer::parseModel(const YAML::Node& node){
             Point v2 = Triple(v2x*scale.x + pos.x, v2y*scale.y + pos.y, v2z*scale.z + pos.z);
             Point v3 = Triple(v3x*scale.x + pos.x, v3y*scale.y + pos.y, v3z*scale.z + pos.z);
             
+            /*
             std::cout << v1.x << " " << v1.y << " " << v1.z << "; ";
             std::cout << v2.x << " " << v2.y << " " << v2.z << "; ";
             std::cout << v3.x << " " << v3.y << " " << v3.z << std::endl;
+            */
 
             Triangle *t = new Triangle(v1, v2, v3, false);
             t->material = m;
@@ -354,33 +356,6 @@ void Raytracer::parseModel(const YAML::Node& node){
         }
         group = group->next;
     }
-
-    /*
-    for(int i = 0; i < model->numtriangles; i++){
-        float v1x = model->vertices[3*model->triangles[i].vindices[0]];
-        float v1y = model->vertices[3*model->triangles[i].vindices[0] + 1];
-        float v1z = model->vertices[3*model->triangles[i].vindices[0] + 2];
-        float v2x = model->vertices[3*model->triangles[i].vindices[1]];
-        float v2y = model->vertices[3*model->triangles[i].vindices[1] + 1];
-        float v2z = model->vertices[3*model->triangles[i].vindices[1] + 2];
-        float v3x = model->vertices[3*model->triangles[i].vindices[2]];
-        float v3y = model->vertices[3*model->triangles[i].vindices[2] + 1];
-        float v3z = model->vertices[3*model->triangles[i].vindices[2] + 2];
-
-        Point v1 = Triple(v1x*50 + 175, v1y*50 + 100, v1z*50 + 200);
-        Point v2 = Triple(v2x*50 + 175, v2y*50 + 100, v2z*50 + 200);
-        Point v3 = Triple(v3x*50 + 175, v3y*50 + 100, v3z*50 + 200);
-        
-        std::cout << v1.x << " " << v1.y << " " << v1.z << "; ";
-        std::cout << v2.x << " " << v2.y << " " << v2.z << "; ";
-        std::cout << v3.x << " " << v3.y << " " << v3.z << std::endl;
-
-        Triangle *t = new Triangle(v1, v2, v3, false);
-        t->material = new Material();
-        t->material->color = Color(1, 1, 1);
-        t->material->kd = 1.0;
-        scene->addObject(t);
-    }*/
 }
 
 Light* Raytracer::parseLight(const YAML::Node& node)
